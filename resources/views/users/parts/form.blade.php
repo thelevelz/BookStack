@@ -19,7 +19,7 @@
         <div>
             @if($authMethod !== 'ldap' || userCan('users-manage'))
                 <label for="email">{{ trans('auth.email') }}</label>
-                @include('form.text', ['name' => 'email', 'disabled' => !userCan('users-manage')])
+                @include('form.text', ['name' => 'email', 'disabled' => true])
             @endif
         </div>
     </div>
@@ -47,7 +47,7 @@
     </div>
 @endif
 
-@if($authMethod === 'standard')
+<!-- @if($authMethod === 'standard')
     <div new-user-password>
         <label class="setting-list-label">{{ trans('settings.users_password') }}</label>
 
@@ -84,4 +84,4 @@
         </div>
 
     </div>
-@endif
+@endif -->

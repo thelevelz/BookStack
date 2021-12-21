@@ -13,9 +13,9 @@
                 <label for="description">{{ trans('settings.role_desc') }}</label>
                 @include('form.text', ['name' => 'description', 'model' => $role])
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 @include('form.checkbox', ['name' => 'mfa_enforced', 'label' => trans('settings.role_mfa_enforced'), 'model' => $role ])
-            </div>
+            </div> -->
 
             @if(in_array(config('auth.method'), ['ldap', 'saml2', 'oidc']))
                 <div class="form-group">

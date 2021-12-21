@@ -46,7 +46,7 @@
             </form>
         </section>
 
-        <section class="card content-wrap auto-height">
+        <!-- <section class="card content-wrap auto-height">
             <h2 class="list-heading">{{ trans('settings.users_mfa') }}</h2>
             <p>{{ trans('settings.users_mfa_desc') }}</p>
             <div class="grid half gap-xl v-center pb-s">
@@ -65,9 +65,9 @@
                 </div>
             </div>
 
-        </section>
+        </section> -->
 
-        @if(user()->id === $user->id && count($activeSocialDrivers) > 0)
+        <!-- @if(user()->id === $user->id && count($activeSocialDrivers) > 0)
             <section class="card content-wrap auto-height">
                 <h2 class="list-heading">{{ trans('settings.users_social_accounts') }}</h2>
                 <p class="text-muted">{{ trans('settings.users_social_accounts_info') }}</p>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </section>
-        @endif
+        @endif -->
 
         @if((user()->id === $user->id && userCan('access-api')) || userCan('users-manage'))
             @include('users.api-tokens.parts.list', ['user' => $user])

@@ -44,12 +44,12 @@
                     @endif
                 @endif
 
-                @if(!signedInUser())
+                <!-- @if(!signedInUser())
                     @if(setting('registration-enabled') && config('auth.method') === 'standard')
                         <a href="{{ url('/register') }}">@icon('new-user'){{ trans('auth.sign_up') }}</a>
                     @endif
                     <a href="{{ url('/login')  }}">@icon('login'){{ trans('auth.log_in') }}</a>
-                @endif
+                @endif -->
             </div>
             @if(signedInUser())
                 <?php $currentUser = user(); ?>
