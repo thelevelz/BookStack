@@ -249,10 +249,10 @@ class LdapTest extends TestCase
         $this->assertDatabaseHas('users', ['email' => $editUser->email, 'external_auth_id' => 'test_auth_id']);
     }
 
-    public function test_registration_disabled()
-    {
-        $this->followingRedirects()->get('/register')->assertElementContains('#content', 'Log In');
-    }
+//    public function test_registration_disabled()
+//    {
+//        $this->followingRedirects()->get('/register')->assertElementContains('#content', 'Log In');
+//    }
 
     public function test_non_admins_cannot_change_auth_id()
     {

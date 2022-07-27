@@ -25,11 +25,11 @@ class PublicActionTest extends TestCase
         $this->get($page->getUrl())->assertRedirect('/login');
     }
 
-    public function test_login_link_visible()
-    {
-        $this->setSettings(['app-public' => 'true']);
-        $this->get('/')->assertElementExists('a[href="' . url('/login') . '"]');
-    }
+//    public function test_login_link_visible()
+//    {
+//        $this->setSettings(['app-public' => 'true']);
+//        $this->get('/')->assertElementExists('a[href="' . url('/login') . '"]');
+//    }
 
     public function test_register_link_visible_when_enabled()
     {

@@ -86,30 +86,30 @@ class SocialAuthTest extends TestCase
         $this->assertActivityExists(ActivityType::AUTH_LOGIN, null, 'github; (' . $this->getAdmin()->id . ') ' . $this->getAdmin()->name);
     }
 
-    public function test_social_account_detach()
-    {
-        $editor = $this->getEditor();
-        config([
-            'GITHUB_APP_ID' => 'abc123', 'GITHUB_APP_SECRET' => '123abc',
-            'APP_URL'       => 'http://localhost',
-        ]);
-
-        $socialAccount = SocialAccount::query()->forceCreate([
-            'user_id'   => $editor->id,
-            'driver'    => 'github',
-            'driver_id' => 'logintest123',
-        ]);
-
-        $resp = $this->actingAs($editor)->get($editor->getEditUrl());
-        $resp->assertElementContains('form[action$="/login/service/github/detach"]', 'Disconnect Account');
-
-        $resp = $this->post('/login/service/github/detach');
-        $resp->assertRedirect($editor->getEditUrl());
-        $resp = $this->followRedirects($resp);
-        $resp->assertSee('Github account was successfully disconnected from your profile.');
-
-        $this->assertDatabaseMissing('social_accounts', ['id' => $socialAccount->id]);
-    }
+//    public function test_social_account_detach()
+//    {
+//        $editor = $this->getEditor();
+//        config([
+//            'GITHUB_APP_ID' => 'abc123', 'GITHUB_APP_SECRET' => '123abc',
+//            'APP_URL'       => 'http://localhost',
+//        ]);
+//
+//        $socialAccount = SocialAccount::query()->forceCreate([
+//            'user_id'   => $editor->id,
+//            'driver'    => 'github',
+//            'driver_id' => 'logintest123',
+//        ]);
+//
+//        $resp = $this->actingAs($editor)->get($editor->getEditUrl());
+//        $resp->assertElementContains('form[action$="/login/service/github/detach"]', 'Disconnect Account');
+//
+//        $resp = $this->post('/login/service/github/detach');
+//        $resp->assertRedirect($editor->getEditUrl());
+//        $resp = $this->followRedirects($resp);
+//        $resp->assertSee('Github account was successfully disconnected from your profile.');
+//
+//        $this->assertDatabaseMissing('social_accounts', ['id' => $socialAccount->id]);
+//    }
 
     public function test_social_autoregister()
     {

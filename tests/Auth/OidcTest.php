@@ -48,12 +48,12 @@ class OidcTest extends TestCase
         }
     }
 
-    public function test_login_option_shows_on_login_page()
-    {
-        $req = $this->get('/login');
-        $req->assertSeeText('SingleSignOn-Testing');
-        $req->assertElementExists('form[action$="/oidc/login"][method=POST] button');
-    }
+//    public function test_login_option_shows_on_login_page()
+//    {
+//        $req = $this->get('/login');
+//        $req->assertSeeText('SingleSignOn-Testing');
+//        $req->assertElementExists('form[action$="/oidc/login"][method=POST] button');
+//    }
 
     public function test_oidc_routes_are_only_active_if_oidc_enabled()
     {

@@ -33,13 +33,13 @@ class AuthTest extends TestCase
             ->assertSee('Log in');
     }
 
-    public function test_registration_showing()
-    {
-        // Ensure registration form is showing
-        $this->setSettings(['registration-enabled' => 'true']);
-        $this->get('/login')
-            ->assertElementContains('a[href="' . url('/register') . '"]', 'Sign up');
-    }
+//    public function test_registration_showing()
+//    {
+//        // Ensure registration form is showing
+//        $this->setSettings(['registration-enabled' => 'true']);
+//        $this->get('/login')
+//            ->assertElementContains('a[href="' . url('/register') . '"]', 'Sign up');
+//    }
 
     public function test_normal_registration()
     {
@@ -225,48 +225,48 @@ class AuthTest extends TestCase
         $this->assertFalse($mfaSession->isVerifiedForUser($user));
     }
 
-    public function test_reset_password_flow()
-    {
-        Notification::fake();
-
-        $this->get('/login')
-            ->assertElementContains('a[href="' . url('/password/email') . '"]', 'Forgot Password?');
-
-        $this->get('/password/email')
-            ->assertElementContains('form[action="' . url('/password/email') . '"]', 'Send Reset Link');
-
-        $resp = $this->post('/password/email', [
-            'email' => 'admin@admin.com',
-        ]);
-        $resp->assertRedirect('/password/email');
-
-        $resp = $this->get('/password/email');
-        $resp->assertSee('A password reset link will be sent to admin@admin.com if that email address is found in the system.');
-
-        $this->assertDatabaseHas('password_resets', [
-            'email' => 'admin@admin.com',
-        ]);
-
-        /** @var User $user */
-        $user = User::query()->where('email', '=', 'admin@admin.com')->first();
-
-        Notification::assertSentTo($user, ResetPassword::class);
-        $n = Notification::sent($user, ResetPassword::class);
-
-        $this->get('/password/reset/' . $n->first()->token)
-            ->assertOk()
-            ->assertSee('Reset Password');
-
-        $resp = $this->post('/password/reset', [
-            'email'                 => 'admin@admin.com',
-            'password'              => 'randompass',
-            'password_confirmation' => 'randompass',
-            'token'                 => $n->first()->token,
-        ]);
-        $resp->assertRedirect('/');
-
-        $this->get('/')->assertSee('Your password has been successfully reset');
-    }
+//    public function test_reset_password_flow()
+//    {
+//        Notification::fake();
+//
+//        $this->get('/login')
+//            ->assertElementContains('a[href="' . url('/password/email') . '"]', 'Forgot Password?');
+//
+//        $this->get('/password/email')
+//            ->assertElementContains('form[action="' . url('/password/email') . '"]', 'Send Reset Link');
+//
+//        $resp = $this->post('/password/email', [
+//            'email' => 'admin@admin.com',
+//        ]);
+//        $resp->assertRedirect('/password/email');
+//
+//        $resp = $this->get('/password/email');
+//        $resp->assertSee('A password reset link will be sent to admin@admin.com if that email address is found in the system.');
+//
+//        $this->assertDatabaseHas('password_resets', [
+//            'email' => 'admin@admin.com',
+//        ]);
+//
+//        /** @var User $user */
+//        $user = User::query()->where('email', '=', 'admin@admin.com')->first();
+//
+//        Notification::assertSentTo($user, ResetPassword::class);
+//        $n = Notification::sent($user, ResetPassword::class);
+//
+//        $this->get('/password/reset/' . $n->first()->token)
+//            ->assertOk()
+//            ->assertSee('Reset Password');
+//
+//        $resp = $this->post('/password/reset', [
+//            'email'                 => 'admin@admin.com',
+//            'password'              => 'randompass',
+//            'password_confirmation' => 'randompass',
+//            'token'                 => $n->first()->token,
+//        ]);
+//        $resp->assertRedirect('/');
+//
+//        $this->get('/')->assertSee('Your password has been successfully reset');
+//    }
 
     public function test_reset_password_flow_shows_success_message_even_if_wrong_password_to_prevent_user_discovery()
     {
@@ -291,13 +291,13 @@ class AuthTest extends TestCase
             ->assertSee('The password reset token is invalid for this email address.');
     }
 
-    public function test_reset_password_page_shows_sign_links()
-    {
-        $this->setSettings(['registration-enabled' => 'true']);
-        $this->get('/password/email')
-            ->assertElementContains('a', 'Log in')
-            ->assertElementContains('a', 'Sign up');
-    }
+//    public function test_reset_password_page_shows_sign_links()
+//    {
+//        $this->setSettings(['registration-enabled' => 'true']);
+//        $this->get('/password/email')
+//            ->assertElementContains('a', 'Log in')
+//            ->assertElementContains('a', 'Sign up');
+//    }
 
     public function test_reset_password_request_is_throttled()
     {
