@@ -305,7 +305,7 @@ class SocialAuthService
     ) {
         $this->validSocialDrivers[] = $driverName;
         config()->set('services.' . $driverName, $config);
-        config()->set('services.' . $driverName . '.redirect', url('/login/service/' . $driverName . '/callback'));
+        config()->set('services.' . $driverName . '.redirect', $config['redirect'] ?? url('/login/service/' . $driverName . '/callback'));
         config()->set('services.' . $driverName . '.name', $config['name'] ?? $driverName);
         Event::listen(SocialiteWasCalled::class, $socialiteHandler);
         if (!is_null($configureForRedirect)) {
