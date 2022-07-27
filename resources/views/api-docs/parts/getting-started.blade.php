@@ -1,5 +1,27 @@
 <h1 class="list-heading text-capitals mb-l">Getting Started</h1>
 
+<p class="mb-none">
+    This documentation covers use of the REST API. <br>
+    Some alternative options for extension and customization can be found below:
+</p>
+
+<ul>
+    <li>
+        <a href="{{ url('/settings/webhooks') }}" target="_blank" rel="noopener noreferrer">Webhooks</a> -
+        HTTP POST calls upon events occurring in BookStack.
+    </li>
+    <li>
+        <a href="https://github.com/BookStackApp/BookStack/blob/master/dev/docs/visual-theme-system.md" target="_blank" rel="noopener noreferrer">Visual Theme System</a> -
+        Methods to override views, translations and icons within BookStack.
+    </li>
+    <li>
+        <a href="https://github.com/BookStackApp/BookStack/blob/master/dev/docs/logical-theme-system.md" target="_blank" rel="noopener noreferrer">Logical Theme System</a> -
+        Methods to extend back-end functionality within BookStack.
+    </li>
+</ul>
+
+<hr>
+
 <h5 id="authentication" class="text-mono mb-m">Authentication</h5>
 <p>
     To access the API a user has to have the <em>"Access System API"</em> permission enabled on one of their assigned roles.
@@ -139,3 +161,22 @@
 	}
 }
 </code></pre>
+
+<hr>
+
+<h5 id="rate-limits" class="text-mono mb-m">Rate Limits</h5>
+<p>
+    The API has built-in per-user rate-limiting to prevent potential abuse using the API.
+    By default, this is set to 180 requests per minute but this can be changed by an administrator
+    by setting an "API_REQUESTS_PER_MIN" .env option like so:
+</p>
+
+<pre><code class="language-bash"># The number of API requests that can be made per minute by a single user.
+API_REQUESTS_PER_MIN=180</code></pre>
+
+<p>
+    When the limit is reached you will receive a 429 "Too Many Attempts." error response.
+    It's generally good practice to limit requests made from your API client, where possible, to avoid
+    affecting normal use of the system caused by over-consuming system resources.
+    Keep in mind there may be other rate-limiting factors such as web-server & firewall controls.
+</p>

@@ -11,16 +11,16 @@ class AvatarTest extends TestCase
 {
     use UsesImages;
 
-    protected function createUserRequest($user)
+    protected function createUserRequest($user): User
     {
         $this->asAdmin()->post('/settings/users/create', [
             'name'             => $user->name,
             'email'            => $user->email,
-            'password'         => 'testing',
-            'password-confirm' => 'testing',
+            'password'         => 'testing101',
+            'password-confirm' => 'testing101',
         ]);
 
-        return User::where('email', '=', $user->email)->first();
+        return User::query()->where('email', '=', $user->email)->first();
     }
 
     protected function assertImageFetchFrom(string $url)
@@ -72,6 +72,21 @@ class AvatarTest extends TestCase
     {
         config()->set([
             'services.disable_services' => true,
+        ]);
+
+        $user = User::factory()->make();
+
+        $http = $this->mock(HttpFetcher::class);
+        $http->shouldNotReceive('fetch');
+
+        $this->createUserRequest($user);
+    }
+
+    public function test_avatar_not_fetched_if_avatar_url_option_set_to_false()
+    {
+        config()->set([
+            'services.disable_services' => false,
+            'services.avatar_url'       => false,
         ]);
 
         $user = User::factory()->make();

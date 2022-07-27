@@ -13,6 +13,8 @@
     @endif
 @endpush
 
+@include('entities.body-tag-classes', ['entity' => $book])
+
 @section('body')
 
     <div class="mb-s">
@@ -67,14 +69,20 @@
 @section('right')
     <div class="mb-xl">
         <h5>{{ trans('common.details') }}</h5>
-        <div class="text-small text-muted blended-links">
+        <div class="blended-links">
             @include('entities.meta', ['entity' => $book])
             @if($book->restricted)
                 <div class="active-restriction">
                     @if(userCan('restrictions-manage', $book))
-                        <a href="{{ $book->getUrl('/permissions') }}">@icon('lock'){{ trans('entities.books_permissions_active') }}</a>
+                        <a href="{{ $book->getUrl('/permissions') }}" class="entity-meta-item">
+                            @icon('lock')
+                            <div>{{ trans('entities.books_permissions_active') }}</div>
+                        </a>
                     @else
-                        @icon('lock'){{ trans('entities.books_permissions_active') }}
+                        <div class="entity-meta-item">
+                            @icon('lock')
+                            <div>{{ trans('entities.books_permissions_active') }}</div>
+                        </div>
                     @endif
                 </div>
             @endif
@@ -108,6 +116,12 @@
                 <a href="{{ $book->getUrl('/sort') }}" class="icon-list-item">
                     <span>@icon('sort')</span>
                     <span>{{ trans('common.sort') }}</span>
+                </a>
+            @endif
+            @if(userCan('book-create-all'))
+                <a href="{{ $book->getUrl('/copy') }}" class="icon-list-item">
+                    <span>@icon('copy')</span>
+                    <span>{{ trans('common.copy') }}</span>
                 </a>
             @endif
             @if(userCan('restrictions-manage', $book))

@@ -21,7 +21,7 @@ return [
     'email' => 'אי-מייל',
     'password' => 'סיסמא',
     'password_confirm' => 'אימות סיסמא',
-    'password_hint' => 'חייבת להיות יותר מ-5 תווים',
+    'password_hint' => '‏אורך הסיסמה חייב להיות לפחות 8 תווים',
     'forgot_password' => 'שכחת סיסמא?',
     'remember_me' => 'זכור אותי',
     'ldap_email_hint' => 'אנא ציין כתובת אי-מייל לשימוש בחשבון זה',
@@ -38,11 +38,16 @@ return [
     'registration_email_domain_invalid' => 'לא ניתן להרשם באמצעות המייל שסופק',
     'register_success' => 'תודה על הרשמתך! ניתן כעת להתחבר',
 
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
+
     // Password Reset
     'reset_password' => 'איפוס סיסמא',
     'reset_password_send_instructions' => 'יש להזין את כתובת המייל למטה ואנו נשלח אלייך הוראות לאיפוס הסיסמא',
     'reset_password_send_button' => 'שלח קישור לאיפוס סיסמא',
-    'reset_password_sent' => 'A password reset link will be sent to :email if that email address is found in the system.',
+    'reset_password_sent' => 'קישור לשחזור סיסמה יישלח ל:email אם כתובת המייל קיימת במערכת.',
     'reset_password_success' => 'סיסמתך עודכנה בהצלחה',
     'email_reset_subject' => 'איפוס סיסמא ב :appName',
     'email_reset_text' => 'קישור זה נשלח עקב בקשה לאיפוס סיסמא בחשבון שלך',
@@ -64,10 +69,10 @@ return [
     'email_not_confirmed_resend_button' => 'שלח שוב מייל אימות',
 
     // User Invite
-    'user_invite_email_subject' => 'You have been invited to join :appName!',
+    'user_invite_email_subject' => 'הוזמנת להצטרף ל:appName!',
     'user_invite_email_greeting' => 'An account has been created for you on :appName.',
     'user_invite_email_text' => 'Click the button below to set an account password and gain access:',
-    'user_invite_email_action' => 'Set Account Password',
+    'user_invite_email_action' => 'הגדר סיסמה לחשבון',
     'user_invite_page_welcome' => 'Welcome to :appName!',
     'user_invite_page_text' => 'To finalise your account and gain access you need to set a password which will be used to log-in to :appName on future visits.',
     'user_invite_page_confirm_button' => 'Confirm Password',

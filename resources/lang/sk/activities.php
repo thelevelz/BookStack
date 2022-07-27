@@ -28,6 +28,8 @@ return [
     // Books
     'book_create'                 => 'vytvoril(a) knihu',
     'book_create_notification'    => 'Kniha úspešne vytvorená',
+    'book_create_from_chapter'              => 'kapitola konvertovaná na knihu',
+    'book_create_from_chapter_notification' => 'Kapitola úspešne konvertovaná na knihu',
     'book_update'                 => 'aktualizoval(a) knihu',
     'book_update_notification'    => 'Kniha úspešne aktualizovaná',
     'book_delete'                 => 'odstránil(a) knihu',
@@ -38,6 +40,8 @@ return [
     // Bookshelves
     'bookshelf_create'            => 'vytvoril(a) knižnicu',
     'bookshelf_create_notification'    => 'Knižnica úspešne vytvorená',
+    'bookshelf_create_from_book'    => 'kniha konvertovaná na poličku',
+    'bookshelf_create_from_book_notification'    => 'Kniha úspešne konvertovaná na poličku',
     'bookshelf_update'                 => 'aktualizoval(a) knižnicu',
     'bookshelf_update_notification'    => 'Knižnica úspešne aktualizovaná',
     'bookshelf_delete'                 => 'odstránil(a) knižnicu',
@@ -50,6 +54,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Viacúrovňový spôsob overenia úspešne nastavený',
     'mfa_remove_method_notification' => 'Viacúrovňový spôsob overenia úspešne odstránený',
+
+    // Webhooks
+    'webhook_create' => 'vytvoril(a) si webhook',
+    'webhook_create_notification' => 'Webhook úspešne vytvorený',
+    'webhook_update' => 'aktualizoval(a) si webhook',
+    'webhook_update_notification' => 'Webhook úspešne aktualizovaný',
+    'webhook_delete' => 'odstránil(a) si webhook',
+    'webhook_delete_notification' => 'Webhook úspešne odstránený',
+
+    // Users
+    'user_update_notification' => 'Používateľ úspešne upravený',
+    'user_delete_notification' => 'Používateľ úspešne zmazaný',
 
     // Other
     'commented_on'                => 'komentoval(a)',

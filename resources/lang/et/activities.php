@@ -28,6 +28,8 @@ return [
     // Books
     'book_create'                 => 'lisas raamatu',
     'book_create_notification'    => 'Raamat on lisatud',
+    'book_create_from_chapter'              => 'muutis peatüki raamatuks',
+    'book_create_from_chapter_notification' => 'Peatükk on muudetud raamatuks',
     'book_update'                 => 'muutis raamatut',
     'book_update_notification'    => 'Raamat on muudetud',
     'book_delete'                 => 'kustutas raamatu',
@@ -38,6 +40,8 @@ return [
     // Bookshelves
     'bookshelf_create'            => 'lisas riiuli',
     'bookshelf_create_notification'    => 'Riiul on lisatud',
+    'bookshelf_create_from_book'    => 'muutis raamatu riiuliks',
+    'bookshelf_create_from_book_notification'    => 'Raamat on muudetud riiuliks',
     'bookshelf_update'                 => 'muutis riiulit',
     'bookshelf_update_notification'    => 'Riiul on muudetud',
     'bookshelf_delete'                 => 'kustutas riiuli',
@@ -50,6 +54,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Mitmeastmeline autentimine seadistatud',
     'mfa_remove_method_notification' => 'Mitmeastmeline autentimine eemaldatud',
+
+    // Webhooks
+    'webhook_create' => 'lisas veebihaagi',
+    'webhook_create_notification' => 'Veebihaak on lisatud',
+    'webhook_update' => 'muutis veebihaaki',
+    'webhook_update_notification' => 'Veebihaak on muudetud',
+    'webhook_delete' => 'kustutas veebihaagi',
+    'webhook_delete_notification' => 'Veebihaak on kustutatud',
+
+    // Users
+    'user_update_notification' => 'Kasutaja on muudetud',
+    'user_delete_notification' => 'Kasutaja on kustutatud',
 
     // Other
     'commented_on'                => 'kommenteeris lehte',

@@ -20,9 +20,9 @@ return [
     'username' => 'Nazwa użytkownika',
     'email' => 'E-mail',
     'password' => 'Hasło',
-    'password_confirm' => 'Potwierdzenie hasła',
-    'password_hint' => 'Musi mieć więcej niż 7 znaków',
-    'forgot_password' => 'Zapomniałem hasła',
+    'password_confirm' => 'Potwierdź hasło',
+    'password_hint' => 'Musi mieć co najmniej 8 znaków',
+    'forgot_password' => 'Zapomniałeś hasła?',
     'remember_me' => 'Zapamiętaj mnie',
     'ldap_email_hint' => 'Wprowadź adres e-mail dla tego konta.',
     'create_account' => 'Utwórz konto',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Rejestracja jest obecnie zablokowana.',
     'registration_email_domain_invalid' => 'Adresy e-mail z tej domeny nie mają dostępu do tej aplikacji',
     'register_success' => 'Dziękujemy za rejestrację! Zostałeś zalogowany automatycznie.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Próba logowania',
+    'auto_init_starting_desc' => 'Łączymy się z twoim systemem uwierzytelniania w celu rozpoczęcia procesu logowania. Jeśli po 5 sekundach nie ma żadnych postępów, możesz spróbować kliknąć poniższy link.',
+    'auto_init_start_link' => 'Kontynuuj uwierzytelnianie',
 
     // Password Reset
     'reset_password' => 'Resetowanie hasła',
@@ -54,13 +59,13 @@ return [
     'email_confirm_text' => 'Prosimy byś potwierdził swoje hasło klikając przycisk poniżej:',
     'email_confirm_action' => 'Potwierdź e-mail',
     'email_confirm_send_error' => 'Wymagane jest potwierdzenie hasła, lecz wiadomość nie mogła zostać wysłana. Skontaktuj się z administratorem w celu upewnienia się, że skrzynka została skonfigurowana prawidłowo.',
-    'email_confirm_success' => 'Your email has been confirmed! You should now be able to login using this email address.',
+    'email_confirm_success' => 'Twój e-mail został potwierdzony! Powinieneś teraz mieć możliwość zalogowania się za pomocą tego adresu e-mail.',
     'email_confirm_resent' => 'E-mail z potwierdzeniem został wysłany ponownie, sprawdź swoją skrzynkę odbiorczą.',
 
     'email_not_confirmed' => 'Adres e-mail nie został potwierdzony',
     'email_not_confirmed_text' => 'Twój adres e-mail nie został jeszcze potwierdzony.',
-    'email_not_confirmed_click_link' => 'Aby potwierdzić swoje konto kliknij w link wysłany w wiadomości po rejestracji.',
-    'email_not_confirmed_resend' => 'Jeśli wiadomość do Ciebie nie dotarła możesz wysłać ją ponownie wypełniając formularz poniżej.',
+    'email_not_confirmed_click_link' => 'Aby potwierdzić swoje konto, kliknij link wysłany w wiadomości po rejestracji.',
+    'email_not_confirmed_resend' => 'Jeśli wiadomość do Ciebie nie dotarła, możesz wysłać ją ponownie, wypełniając formularz poniżej.',
     'email_not_confirmed_resend_button' => 'Wyślij ponownie wiadomość z potwierdzeniem',
 
     // User Invite
@@ -71,7 +76,7 @@ return [
     'user_invite_page_welcome' => 'Witaj w :appName!',
     'user_invite_page_text' => 'Aby zakończyć tworzenie konta musisz ustawić hasło, które będzie używane do logowania do :appName w przyszłości.',
     'user_invite_page_confirm_button' => 'Potwierdź hasło',
-    'user_invite_success_login' => 'Password set, you should now be able to login using your set password to access :appName!',
+    'user_invite_success_login' => 'Hasło ustawione, teraz powinieneś mieć możliwość logowania się przy użyciu ustawionego hasła, aby uzyskać dostęp do :appName!',
 
     // Multi-factor Authentication
     'mfa_setup' => 'Skonfiguruj uwierzytelnianie wieloskładnikowe',

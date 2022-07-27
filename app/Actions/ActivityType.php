@@ -16,11 +16,13 @@ class ActivityType
     const CHAPTER_MOVE = 'chapter_move';
 
     const BOOK_CREATE = 'book_create';
+    const BOOK_CREATE_FROM_CHAPTER = 'book_create_from_chapter';
     const BOOK_UPDATE = 'book_update';
     const BOOK_DELETE = 'book_delete';
     const BOOK_SORT = 'book_sort';
 
     const BOOKSHELF_CREATE = 'bookshelf_create';
+    const BOOKSHELF_CREATE_FROM_BOOK = 'bookshelf_create_from_book';
     const BOOKSHELF_UPDATE = 'bookshelf_update';
     const BOOKSHELF_DELETE = 'bookshelf_delete';
 
@@ -53,4 +55,16 @@ class ActivityType
 
     const MFA_SETUP_METHOD = 'mfa_setup_method';
     const MFA_REMOVE_METHOD = 'mfa_remove_method';
+
+    const WEBHOOK_CREATE = 'webhook_create';
+    const WEBHOOK_UPDATE = 'webhook_update';
+    const WEBHOOK_DELETE = 'webhook_delete';
+
+    /**
+     * Get all the possible values.
+     */
+    public static function all(): array
+    {
+        return (new \ReflectionClass(static::class))->getConstants();
+    }
 }

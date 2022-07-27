@@ -1,9 +1,8 @@
 import MarkdownIt from "markdown-it";
 import mdTasksLists from 'markdown-it-task-lists';
-import code from '../services/code';
 import Clipboard from "../services/clipboard";
 import {debounce} from "../services/util";
-
+import {patchDomFromHtmlString} from "../services/vdom";
 import DrawIO from "../services/drawio";
 
 class MarkdownEditor {
@@ -23,13 +22,20 @@ class MarkdownEditor {
 
         this.displayStylesLoaded = false;
         this.input = this.elem.querySelector('textarea');
-        this.cm = code.markdownEditor(this.input);
+
+        this.cm = null;
+        this.Code = null;
+        const cmLoadPromise = window.importVersioned('code').then(Code => {
+            this.cm = Code.markdownEditor(this.input);
+            this.Code = Code;
+            return this.cm;
+        });
 
         this.onMarkdownScroll = this.onMarkdownScroll.bind(this);
 
         const displayLoad = () => {
             this.displayDoc = this.display.contentDocument;
-            this.init();
+            this.init(cmLoadPromise);
         };
 
         if (this.display.contentDocument.readyState === 'complete') {
@@ -45,7 +51,7 @@ class MarkdownEditor {
         });
     }
 
-    init() {
+    init(cmLoadPromise) {
 
         let lastClick = 0;
 
@@ -98,12 +104,15 @@ class MarkdownEditor {
             toolbarLabel.closest('.markdown-editor-wrap').classList.add('active');
         });
 
-        window.$events.listen('editor-markdown-update', value => {
-            this.cm.setValue(value);
-            this.updateAndRender();
+        cmLoadPromise.then(cm => {
+            this.codeMirrorSetup(cm);
+
+            // Refresh CodeMirror on container resize
+            const resizeDebounced = debounce(() => this.Code.updateLayout(cm), 100, false);
+            const observer = new ResizeObserver(resizeDebounced);
+            observer.observe(this.elem);
         });
 
-        this.codeMirrorSetup();
         this.listenForBookStackEditorEvents();
 
         // Scroll to text if needed.
@@ -118,16 +127,29 @@ class MarkdownEditor {
     updateAndRender() {
         const content = this.cm.getValue();
         this.input.value = content;
+
         const html = this.markdown.render(content);
         window.$events.emit('editor-html-change', html);
         window.$events.emit('editor-markdown-change', content);
 
         // Set body content
+        const target = this.getDisplayTarget();
         this.displayDoc.body.className = 'page-content';
-        this.displayDoc.body.innerHTML = html;
+        patchDomFromHtmlString(target, html);
 
         // Copy styles from page head and set custom styles for editor
         this.loadStylesIntoDisplay();
+    }
+
+    getDisplayTarget() {
+        const body = this.displayDoc.body;
+
+        if (body.children.length === 0) {
+            const wrap = document.createElement('div');
+            this.displayDoc.body.append(wrap);
+        }
+
+        return body.children[0];
     }
 
     loadStylesIntoDisplay() {
@@ -158,15 +180,14 @@ class MarkdownEditor {
         topElem.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth'});
     }
 
-    codeMirrorSetup() {
-        const cm = this.cm;
+    codeMirrorSetup(cm) {
         const context = this;
 
         // Text direction
         // cm.setOption('direction', this.textDirection);
         cm.setOption('direction', 'ltr'); // Will force to remain as ltr for now due to issues when HTML is in editor.
         // Custom key commands
-        let metaKey = code.getMetaKey();
+        let metaKey = this.Code.getMetaKey();
         const extraKeys = {};
         // Insert Image shortcut
         extraKeys[`${metaKey}-Alt-I`] = function(cm) {
@@ -190,13 +211,15 @@ class MarkdownEditor {
         extraKeys[`${metaKey}-3`] = cm => {replaceLineStart('####');};
         extraKeys[`${metaKey}-4`] = cm => {replaceLineStart('#####');};
         extraKeys[`${metaKey}-5`] = cm => {replaceLineStart('');};
-        extraKeys[`${metaKey}-d`] = cm => {replaceLineStart('');};
+        extraKeys[`${metaKey}-D`] = cm => {replaceLineStart('');};
         extraKeys[`${metaKey}-6`] = cm => {replaceLineStart('>');};
-        extraKeys[`${metaKey}-q`] = cm => {replaceLineStart('>');};
+        extraKeys[`${metaKey}-Q`] = cm => {replaceLineStart('>');};
         extraKeys[`${metaKey}-7`] = cm => {wrapSelection('\n```\n', '\n```');};
         extraKeys[`${metaKey}-8`] = cm => {wrapSelection('`', '`');};
         extraKeys[`Shift-${metaKey}-E`] = cm => {wrapSelection('`', '`');};
         extraKeys[`${metaKey}-9`] = cm => {wrapSelection('<p class="callout info">', '</p>');};
+        extraKeys[`${metaKey}-P`] = cm => {replaceLineStart('-')}
+        extraKeys[`${metaKey}-O`] = cm => {replaceLineStartForOrderedList()}
         cm.setOption('extraKeys', extraKeys);
 
         // Update data on content change
@@ -345,6 +368,19 @@ class MarkdownEditor {
             cm.setSelections([selections]);
         }
 
+        function replaceLineStartForOrderedList() {
+            const cursor = cm.getCursor();
+            const prevLineContent = cm.getLine(cursor.line - 1) || '';
+            const listMatch = prevLineContent.match(/^(\s*)(\d)([).])\s/) || [];
+
+            const number = (Number(listMatch[2]) || 0) + 1;
+            const whiteSpace = listMatch[1] || '';
+            const listMark = listMatch[3] || '.'
+
+            const prefix = `${whiteSpace}${number}${listMark}`;
+            return replaceLineStart(prefix);
+        }
+
         // Handle image upload and add image into markdown content
         function uploadImage(file) {
             if (file === null || file.type.indexOf('image') !== 0) return;
@@ -395,8 +431,9 @@ class MarkdownEditor {
     actionInsertImage() {
         const cursorPos = this.cm.getCursor('from');
         window.ImageManager.show(image => {
+            const imageUrl = image.thumbs.display || image.url;
             let selectedText = this.cm.getSelection();
-            let newText = "[![" + (selectedText || image.name) + "](" + image.thumbs.display + ")](" + image.url + ")";
+            let newText = "[![" + (selectedText || image.name) + "](" + imageUrl + ")](" + image.url + ")";
             this.cm.focus();
             this.cm.replaceSelection(newText);
             this.cm.setCursor(cursorPos.line, cursorPos.ch + newText.length);

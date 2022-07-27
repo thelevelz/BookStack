@@ -22,12 +22,14 @@ return [
     'chapter_update'              => 'atualizou o capítulo',
     'chapter_update_notification' => 'Capítulo atualizado com sucesso',
     'chapter_delete'              => 'excluiu o capítulo',
-    'chapter_delete_notification' => 'Capítulo excluído com sucesso',
+    'chapter_delete_notification' => 'Capítulo excluída com sucesso',
     'chapter_move'                => 'moveu o capítulo',
 
     // Books
     'book_create'                 => 'criou o livro',
     'book_create_notification'    => 'Livro criado com sucesso',
+    'book_create_from_chapter'              => 'converted chapter to book',
+    'book_create_from_chapter_notification' => 'Chapter successfully converted to a book',
     'book_update'                 => 'atualizou o livro',
     'book_update_notification'    => 'Livro atualizado com sucesso',
     'book_delete'                 => 'excluiu o livro',
@@ -36,20 +38,34 @@ return [
     'book_sort_notification'      => 'Livro reordenado com sucesso',
 
     // Bookshelves
-    'bookshelf_create'            => 'criou a prateleira',
+    'bookshelf_create'            => 'prateleira criada',
     'bookshelf_create_notification'    => 'Prateleira criada com sucesso',
+    'bookshelf_create_from_book'    => 'converted book to bookshelf',
+    'bookshelf_create_from_book_notification'    => 'Book successfully converted to a shelf',
     'bookshelf_update'                 => 'atualizou a prateleira',
     'bookshelf_update_notification'    => 'Prateleira atualizada com sucesso',
     'bookshelf_delete'                 => 'excluiu a prateleira',
     'bookshelf_delete_notification'    => 'Prateleira excluída com sucesso',
 
     // Favourites
-    'favourite_add_notification' => '":name" has been added to your favourites',
-    'favourite_remove_notification' => '":name" has been removed from your favourites',
+    'favourite_add_notification' => '":name" foi adicionada aos seus favoritos',
+    'favourite_remove_notification' => '":name" foi removida dos seus favoritos',
 
     // MFA
-    'mfa_setup_method_notification' => 'Multi-factor method successfully configured',
-    'mfa_remove_method_notification' => 'Multi-factor method successfully removed',
+    'mfa_setup_method_notification' => 'Método de multi-fatores configurado com sucesso',
+    'mfa_remove_method_notification' => 'Método de multi-fatores removido com sucesso',
+
+    // Webhooks
+    'webhook_create' => 'webhook criado',
+    'webhook_create_notification' => 'Webhook criado com sucesso',
+    'webhook_update' => 'webhook atualizado',
+    'webhook_update_notification' => 'Webhook atualizado com sucesso',
+    'webhook_delete' => 'webhook excluído',
+    'webhook_delete_notification' => 'Webhook excluido com sucesso',
+
+    // Users
+    'user_update_notification' => 'Usuário atualizado com sucesso',
+    'user_delete_notification' => 'Usuário removido com sucesso',
 
     // Other
     'commented_on'                => 'comentou em',

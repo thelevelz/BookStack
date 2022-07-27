@@ -39,14 +39,16 @@ return [
     'reset' => 'Скинути',
     'remove' => 'Видалити',
     'add' => 'Додати',
-    'configure' => 'Configure',
+    'configure' => 'Налаштувати',
     'fullscreen' => 'На весь екран',
-    'favourite' => 'Favourite',
-    'unfavourite' => 'Unfavourite',
-    'next' => 'Next',
-    'previous' => 'Previous',
-    'filter_active' => 'Active Filter:',
-    'filter_clear' => 'Clear Filter',
+    'favourite' => 'Улюблене',
+    'unfavourite' => 'Прибрати з обраного',
+    'next' => 'Уперед',
+    'previous' => 'Назад',
+    'filter_active' => 'Активний фільтр:',
+    'filter_clear' => 'Очистити фільтр',
+    'download' => 'Завантажити',
+    'open_in_tab' => 'Відкрити в новій вкладці',
 
     // Sort Options
     'sort_options' => 'Параметри сортування',
@@ -63,7 +65,7 @@ return [
     'no_activity' => 'Немає активності для показу',
     'no_items' => 'Немає доступних елементів',
     'back_to_top' => 'Повернутися до початку',
-    'skip_to_main_content' => 'Skip to main content',
+    'skip_to_main_content' => 'Перейти до змісту',
     'toggle_details' => 'Подробиці',
     'toggle_thumbnails' => 'Мініатюри',
     'details' => 'Деталі',
@@ -71,9 +73,14 @@ return [
     'list_view' => 'Вигляд Списком',
     'default' => 'За замовчуванням',
     'breadcrumb' => 'Навігація',
+    'status' => 'Стан',
+    'status_active' => 'Активний',
+    'status_inactive' => 'Неактивний',
+    'never' => 'Ніколи',
+    'none' => 'Відсутньо',
 
     // Header
-    'header_menu_expand' => 'Expand Header Menu',
+    'header_menu_expand' => 'Розгорнути меню заголовка',
     'profile_menu' => 'Меню профілю',
     'view_profile' => 'Переглянути профіль',
     'edit_profile' => 'Редагувати профіль',
@@ -82,9 +89,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Інфо',
-    'tab_info_label' => 'Tab: Show Secondary Information',
+    'tab_info_label' => 'Вкладка: показувати додаткову інформацію',
     'tab_content' => 'Вміст',
-    'tab_content_label' => 'Tab: Show Primary Content',
+    'tab_content_label' => 'Вкладка: Показати основний вміст',
 
     // Email Content
     'email_action_help' => 'Якщо у вас виникають проблеми при натисканні кнопки ":actionText", скопіюйте та вставте URL у свій веб-браузер:',

@@ -47,6 +47,8 @@ return [
     'previous' => 'Anterior',
     'filter_active' => 'Filtro activo:',
     'filter_clear' => 'Limpiar filtro',
+    'download' => 'Descargar',
+    'open_in_tab' => 'Abrir en una pestaña',
 
     // Sort Options
     'sort_options' => 'Opciones de Orden',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Vista de lista',
     'default' => 'Por defecto',
     'breadcrumb' => 'Miga de Pan',
+    'status' => 'Estado',
+    'status_active' => 'Activo',
+    'status_inactive' => 'Inactivo',
+    'never' => 'Nunca',
+    'none' => 'Ninguno',
 
     // Header
     'header_menu_expand' => 'Expandir el Menú de Cabecera',

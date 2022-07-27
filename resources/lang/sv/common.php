@@ -19,7 +19,7 @@ return [
     'description' => 'Beskrivning',
     'role' => 'Roll',
     'cover_image' => 'Omslagsbild',
-    'cover_image_description' => 'Bilden bör vara cirka 440x250px stor.',
+    'cover_image_description' => 'Bilden bör vara cirka 440x250px.',
 
     // Actions
     'actions' => 'Åtgärder',
@@ -47,6 +47,8 @@ return [
     'previous' => 'Föregående',
     'filter_active' => 'Active Filter:',
     'filter_clear' => 'Clear Filter',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'Sorteringsalternativ',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Listvy',
     'default' => 'Förvald',
     'breadcrumb' => 'Brödsmula',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inaktiv',
+    'never' => 'Never',
+    'none' => 'None',
 
     // Header
     'header_menu_expand' => 'Expandera sidhuvudsmenyn',
@@ -78,7 +85,7 @@ return [
     'view_profile' => 'Visa profil',
     'edit_profile' => 'Redigera profil',
     'dark_mode' => 'Mörkt läge',
-    'light_mode' => 'Ljust Läge',
+    'light_mode' => 'Ljust läge',
 
     // Layout tabs
     'tab_info' => 'Information',
@@ -87,7 +94,7 @@ return [
     'tab_content_label' => 'Flik: Visa primärt innehåll',
 
     // Email Content
-    'email_action_help' => 'Om du har problem, klicka på knappen ":actionText", och kopiera och klistra in den här adressen i din webbläsare:',
+    'email_action_help' => 'Om du har problem att klicka på ":actionText"-knappen, kopiera och klistra in URL\'n nedan i din webbläsare:',
     'email_rights' => 'Alla rättigheter är reserverade',
 
     // Footer Link Options

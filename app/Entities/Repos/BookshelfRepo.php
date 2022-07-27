@@ -6,12 +6,10 @@ use BookStack\Actions\ActivityType;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Tools\TrashCan;
-use BookStack\Exceptions\ImageUploadException;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Facades\Activity;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 
 class BookshelfRepo
@@ -89,8 +87,9 @@ class BookshelfRepo
     {
         $shelf = new Bookshelf();
         $this->baseRepo->create($shelf, $input);
+        $this->baseRepo->updateCoverImage($shelf, $input['image'] ?? null);
         $this->updateBooks($shelf, $bookIds);
-        Activity::addForEntity($shelf, ActivityType::BOOKSHELF_CREATE);
+        Activity::add(ActivityType::BOOKSHELF_CREATE, $shelf);
 
         return $shelf;
     }
@@ -106,14 +105,17 @@ class BookshelfRepo
             $this->updateBooks($shelf, $bookIds);
         }
 
-        Activity::addForEntity($shelf, ActivityType::BOOKSHELF_UPDATE);
+        if (array_key_exists('image', $input)) {
+            $this->baseRepo->updateCoverImage($shelf, $input['image'], $input['image'] === null);
+        }
+
+        Activity::add(ActivityType::BOOKSHELF_UPDATE, $shelf);
 
         return $shelf;
     }
 
     /**
-     * Update which books are assigned to this shelf by
-     * syncing the given book ids.
+     * Update which books are assigned to this shelf by syncing the given book ids.
      * Function ensures the books are visible to the current user and existing.
      */
     protected function updateBooks(Bookshelf $shelf, array $bookIds)
@@ -130,17 +132,6 @@ class BookshelfRepo
             });
 
         $shelf->books()->sync($syncData);
-    }
-
-    /**
-     * Update the given shelf cover image, or clear it.
-     *
-     * @throws ImageUploadException
-     * @throws Exception
-     */
-    public function updateCoverImage(Bookshelf $shelf, ?UploadedFile $coverImage, bool $removeImage = false)
-    {
-        $this->baseRepo->updateCoverImage($shelf, $coverImage, $removeImage);
     }
 
     /**
@@ -177,7 +168,7 @@ class BookshelfRepo
     {
         $trashCan = new TrashCan();
         $trashCan->softDestroyShelf($shelf);
-        Activity::addForEntity($shelf, ActivityType::BOOKSHELF_DELETE);
+        Activity::add(ActivityType::BOOKSHELF_DELETE, $shelf);
         $trashCan->autoClearOld();
     }
 }

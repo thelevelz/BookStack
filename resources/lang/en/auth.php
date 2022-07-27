@@ -21,7 +21,7 @@ return [
     'email' => 'Email',
     'password' => 'Password',
     'password_confirm' => 'Confirm Password',
-    'password_hint' => 'Must be over 7 characters',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'Forgot Password?',
     'remember_me' => 'Remember Me',
     'ldap_email_hint' => 'Please enter an email to use for this account.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Registrations are currently disabled',
     'registration_email_domain_invalid' => 'That email domain does not have access to this application',
     'register_success' => 'Thanks for signing up! You are now registered and signed in.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
     'reset_password' => 'Reset Password',

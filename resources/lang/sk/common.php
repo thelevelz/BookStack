@@ -47,6 +47,8 @@ return [
     'previous' => 'Späť',
     'filter_active' => 'Aktívny filter:',
     'filter_clear' => 'Bez filtrovania',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'Možnosti triedenia',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Zobraziť ako zoznam',
     'default' => 'Predvolené',
     'breadcrumb' => 'Breadcrumb',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
+    'none' => 'None',
 
     // Header
     'header_menu_expand' => 'Rozbaliť menu v záhlaví',

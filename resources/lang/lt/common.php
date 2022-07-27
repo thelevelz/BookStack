@@ -47,6 +47,8 @@ return [
     'previous' => 'Previous',
     'filter_active' => 'Active Filter:',
     'filter_clear' => 'Clear Filter',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'Rūšiuoti pasirinkimus',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Sąrašas',
     'default' => 'Numatytas',
     'breadcrumb' => 'Duonos rėžis',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
+    'none' => 'None',
 
     // Header
     'header_menu_expand' => 'Plėsti antraštės meniu',

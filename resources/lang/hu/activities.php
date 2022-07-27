@@ -28,6 +28,8 @@ return [
     // Books
     'book_create'                 => 'létrehozott egy könyvet:',
     'book_create_notification'    => 'Könyv sikeresen létrehozva',
+    'book_create_from_chapter'              => 'converted chapter to book',
+    'book_create_from_chapter_notification' => 'Chapter successfully converted to a book',
     'book_update'                 => 'frissítette a könyvet:',
     'book_update_notification'    => 'Könyv sikeresen frissítve',
     'book_delete'                 => 'törölte a könyvet:',
@@ -36,8 +38,10 @@ return [
     'book_sort_notification'      => 'Könyv sikeresen újrarendezve',
 
     // Bookshelves
-    'bookshelf_create'            => 'létrehozta a könyvespolcot:',
+    'bookshelf_create'            => 'created bookshelf',
     'bookshelf_create_notification'    => 'Könyvespolc sikeresen létrehozva',
+    'bookshelf_create_from_book'    => 'converted book to bookshelf',
+    'bookshelf_create_from_book_notification'    => 'Book successfully converted to a shelf',
     'bookshelf_update'                 => 'frissítette a könyvespolcot:',
     'bookshelf_update_notification'    => 'Könyvespolc sikeresen frissítve',
     'bookshelf_delete'                 => 'törölte a könyvespolcot:',
@@ -50,6 +54,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Multi-factor method successfully configured',
     'mfa_remove_method_notification' => 'Multi-factor method successfully removed',
+
+    // Webhooks
+    'webhook_create' => 'created webhook',
+    'webhook_create_notification' => 'Webhook sikeresen létrehozva',
+    'webhook_update' => 'updated webhook',
+    'webhook_update_notification' => 'Webhook sikeresen frissítve',
+    'webhook_delete' => 'deleted webhook',
+    'webhook_delete_notification' => 'Webhook successfully deleted',
+
+    // Users
+    'user_update_notification' => 'Felhasználó sikeresen frissítve',
+    'user_delete_notification' => 'Felhasználó sikeresen eltávolítva',
 
     // Other
     'commented_on'                => 'megjegyzést fűzött hozzá:',

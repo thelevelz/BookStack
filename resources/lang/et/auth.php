@@ -21,15 +21,15 @@ return [
     'email' => 'E-post',
     'password' => 'Parool',
     'password_confirm' => 'Kinnita parool',
-    'password_hint' => 'Peab olema rohkem kui 7 tähemärki',
+    'password_hint' => 'Peab olema vähemalt 8 tähemärki pikk',
     'forgot_password' => 'Unustasid parooli?',
     'remember_me' => 'Jäta mind meelde',
     'ldap_email_hint' => 'Sisesta kasutajakonto e-posti aadress.',
     'create_account' => 'Loo konto',
     'already_have_account' => 'Kasutajakonto juba olemas?',
     'dont_have_account' => 'Sul ei ole veel kontot?',
-    'social_login' => 'Social Login',
-    'social_registration' => 'Social Registration',
+    'social_login' => 'Sisene läbi sotsiaalmeedia',
+    'social_registration' => 'Registreeru läbi sotsiaalmeedia',
     'social_registration_text' => 'Registreeru ja logi sisse välise teenuse kaudu.',
 
     'register_thanks' => 'Aitäh, et registreerusid!',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Registreerumine on hetkel keelatud',
     'registration_email_domain_invalid' => 'Sellel e-posti domeenil ei ole rakendusele ligipääsu',
     'register_success' => 'Aitäh, et registreerusid! Oled nüüd sisse logitud.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Sisselogimiskatse',
+    'auto_init_starting_desc' => 'Sisselogimise protsessi alustamiseks autentimissüsteemiga ühendumine. Kui 5 sekundi jooksul edasiminekut ei ole, proovi alloleval lingil klikkida.',
+    'auto_init_start_link' => 'Jätka autentimisega',
 
     // Password Reset
     'reset_password' => 'Lähtesta parool',

@@ -47,6 +47,8 @@ return [
     'previous' => 'Previous',
     'filter_active' => 'Active Filter:',
     'filter_clear' => 'Clear Filter',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'Opcions d\'ordenació',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Visualització en llista',
     'default' => 'Per defecte',
     'breadcrumb' => 'Ruta de navegació',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
+    'none' => 'None',
 
     // Header
     'header_menu_expand' => 'Expand Header Menu',

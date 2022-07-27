@@ -28,6 +28,8 @@ return [
     // Books
     'book_create'                 => 'создал книгу',
     'book_create_notification'    => 'Книга успешно создана',
+    'book_create_from_chapter'              => 'преобразовал главу в книгу',
+    'book_create_from_chapter_notification' => 'Глава успешно преобразована в книгу',
     'book_update'                 => 'обновил книгу',
     'book_update_notification'    => 'Книга успешно обновлена',
     'book_delete'                 => 'удалил книгу',
@@ -38,6 +40,8 @@ return [
     // Bookshelves
     'bookshelf_create'            => 'создал полку',
     'bookshelf_create_notification'    => 'Полка успешно создана',
+    'bookshelf_create_from_book'    => 'преобразовать книгу в полку',
+    'bookshelf_create_from_book_notification'    => 'Книга успешно преобразована в полку',
     'bookshelf_update'                 => 'обновил полку',
     'bookshelf_update_notification'    => 'Полка успешно обновлена',
     'bookshelf_delete'                 => 'удалил полку',
@@ -50,6 +54,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Двухфакторный метод авторизации успешно настроен',
     'mfa_remove_method_notification' => 'Двухфакторный метод авторизации успешно удален',
+
+    // Webhooks
+    'webhook_create' => 'создал вебхук',
+    'webhook_create_notification' => 'Вебхук успешно создан',
+    'webhook_update' => 'обновил вебхук',
+    'webhook_update_notification' => 'Вебхук успешно обновлен',
+    'webhook_delete' => 'удалил вебхук',
+    'webhook_delete_notification' => 'Вебхук успешно удален',
+
+    // Users
+    'user_update_notification' => 'Пользователь успешно обновлен',
+    'user_delete_notification' => 'Пользователь успешно удален',
 
     // Other
     'commented_on'                => 'прокомментировал',

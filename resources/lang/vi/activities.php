@@ -28,6 +28,8 @@ return [
     // Books
     'book_create'                 => 'đã tạo sách',
     'book_create_notification'    => 'Sách đã được tạo thành công',
+    'book_create_from_chapter'              => 'converted chapter to book',
+    'book_create_from_chapter_notification' => 'Chapter successfully converted to a book',
     'book_update'                 => 'đã cập nhật sách',
     'book_update_notification'    => 'Sách đã được cập nhật thành công',
     'book_delete'                 => 'đã xóa sách',
@@ -38,8 +40,10 @@ return [
     // Bookshelves
     'bookshelf_create'            => 'đã tạo giá sách',
     'bookshelf_create_notification'    => 'Giá sách đã được tạo thành công',
+    'bookshelf_create_from_book'    => 'converted book to bookshelf',
+    'bookshelf_create_from_book_notification'    => 'Book successfully converted to a shelf',
     'bookshelf_update'                 => 'cập nhật giá sách',
-    'bookshelf_update_notification'    => 'Giá sách đã tạo thành công',
+    'bookshelf_update_notification'    => 'Giá sách đã được cập nhật thành công',
     'bookshelf_delete'                 => 'đã xóa giá sách',
     'bookshelf_delete_notification'    => 'Giá sách đã được xóa thành công',
 
@@ -50,6 +54,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Cấu hình xác thực nhiều bước thành công',
     'mfa_remove_method_notification' => 'Đã gỡ xác thực nhiều bước',
+
+    // Webhooks
+    'webhook_create' => 'đã tạo webhook',
+    'webhook_create_notification' => 'Webhook đã được tạo thành công',
+    'webhook_update' => 'đã cập nhật webhook',
+    'webhook_update_notification' => 'Webhook đã được cập nhật thành công',
+    'webhook_delete' => 'đã xóa webhook',
+    'webhook_delete_notification' => 'Webhook đã được xóa thành công',
+
+    // Users
+    'user_update_notification' => 'Người dùng được cập nhật thành công',
+    'user_delete_notification' => 'Người dùng đã được xóa thành công',
 
     // Other
     'commented_on'                => 'đã bình luận về',

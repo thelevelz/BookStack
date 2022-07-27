@@ -2,16 +2,22 @@
 
 namespace Tests;
 
+use BookStack\Actions\ActivityType;
+use BookStack\Actions\DispatchWebhookJob;
+use BookStack\Actions\Webhook;
 use BookStack\Auth\User;
+use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Page;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Facades\Theme;
 use BookStack\Theming\ThemeEvents;
 use Illuminate\Console\Command;
+use Illuminate\Http\Client\Request as HttpClientRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use League\CommonMark\ConfigurableEnvironmentInterface;
 
 class ThemeTest extends TestCase
@@ -31,7 +37,7 @@ class ThemeTest extends TestCase
             file_put_contents($translationPath . '/entities.php', $customTranslations);
 
             $homeRequest = $this->actingAs($this->getViewer())->get('/');
-            $homeRequest->assertElementContains('header nav', 'Sandwiches');
+            $this->withHtml($homeRequest)->assertElementContains('header nav', 'Sandwiches');
         });
     }
 
@@ -160,6 +166,54 @@ class ThemeTest extends TestCase
         $this->assertInstanceOf(User::class, $args[1]);
     }
 
+    public function test_event_webhook_call_before()
+    {
+        $args = [];
+        $callback = function (...$eventArgs) use (&$args) {
+            $args = $eventArgs;
+
+            return ['test' => 'hello!'];
+        };
+        Theme::listen(ThemeEvents::WEBHOOK_CALL_BEFORE, $callback);
+
+        Http::fake([
+            '*' => Http::response('', 200),
+        ]);
+
+        $webhook = new Webhook(['name' => 'Test webhook', 'endpoint' => 'https://example.com']);
+        $webhook->save();
+        $event = ActivityType::PAGE_UPDATE;
+        $detail = Page::query()->first();
+
+        dispatch((new DispatchWebhookJob($webhook, $event, $detail)));
+
+        $this->assertCount(5, $args);
+        $this->assertEquals($event, $args[0]);
+        $this->assertEquals($webhook->id, $args[1]->id);
+        $this->assertEquals($detail->id, $args[2]->id);
+
+        Http::assertSent(function (HttpClientRequest $request) {
+            return $request->isJson() && $request->data()['test'] === 'hello!';
+        });
+    }
+
+    public function test_event_activity_logged()
+    {
+        $book = Book::query()->first();
+        $args = [];
+        $callback = function (...$eventArgs) use (&$args) {
+            $args = $eventArgs;
+        };
+
+        Theme::listen(ThemeEvents::ACTIVITY_LOGGED, $callback);
+        $this->asEditor()->put($book->getUrl(), ['name' => 'My cool update book!']);
+
+        $this->assertCount(2, $args);
+        $this->assertEquals(ActivityType::BOOK_UPDATE, $args[0]);
+        $this->assertTrue($args[1] instanceof Book);
+        $this->assertEquals($book->id, $args[1]->id);
+    }
+
     public function test_add_social_driver()
     {
         Theme::addSocialDriver('catnet', [
@@ -218,6 +272,23 @@ class ThemeTest extends TestCase
         $this->assertStringContainsString('Command ran!', $output);
     }
 
+    public function test_body_start_and_end_template_files_can_be_used()
+    {
+        $bodyStartStr = 'barry-fought-against-the-panther';
+        $bodyEndStr = 'barry-lost-his-fight-with-grace';
+
+        $this->usingThemeFolder(function (string $folder) use ($bodyStartStr, $bodyEndStr) {
+            $viewDir = theme_path('layouts/parts');
+            mkdir($viewDir, 0777, true);
+            file_put_contents($viewDir . '/base-body-start.blade.php', $bodyStartStr);
+            file_put_contents($viewDir . '/base-body-end.blade.php', $bodyEndStr);
+
+            $resp = $this->asEditor()->get('/');
+            $resp->assertSee($bodyStartStr);
+            $resp->assertSee($bodyEndStr);
+        });
+    }
+
     protected function usingThemeFolder(callable $callback)
     {
         // Create a folder and configure a theme
@@ -226,7 +297,10 @@ class ThemeTest extends TestCase
         $themeFolderPath = theme_path('');
         File::makeDirectory($themeFolderPath);
 
-        call_user_func($callback, $themeFolderName);
+        // Run provided callback with theme env option set
+        $this->runWithEnv('APP_THEME', $themeFolderName, function () use ($callback, $themeFolderName) {
+            call_user_func($callback, $themeFolderName);
+        });
 
         // Cleanup the custom theme folder we created
         File::deleteDirectory($themeFolderPath);

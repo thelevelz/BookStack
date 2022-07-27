@@ -6,10 +6,13 @@ use BookStack\Actions\View;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Repos\ChapterRepo;
 use BookStack\Entities\Tools\BookContents;
+use BookStack\Entities\Tools\Cloner;
+use BookStack\Entities\Tools\HierarchyTransformer;
 use BookStack\Entities\Tools\NextPreviousContentLocator;
 use BookStack\Entities\Tools\PermissionsUpdater;
 use BookStack\Exceptions\MoveOperationException;
 use BookStack\Exceptions\NotFoundException;
+use BookStack\Exceptions\PermissionsException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -179,6 +182,8 @@ class ChapterController extends Controller
 
         try {
             $newBook = $this->chapterRepo->move($chapter, $entitySelection);
+        } catch (PermissionsException $exception) {
+            $this->showPermissionError();
         } catch (MoveOperationException $exception) {
             $this->showErrorNotification(trans('errors.selected_book_not_found'));
 
@@ -188,6 +193,53 @@ class ChapterController extends Controller
         $this->showSuccessNotification(trans('entities.chapter_move_success', ['bookName' => $newBook->name]));
 
         return redirect($chapter->getUrl());
+    }
+
+    /**
+     * Show the view to copy a chapter.
+     *
+     * @throws NotFoundException
+     */
+    public function showCopy(string $bookSlug, string $chapterSlug)
+    {
+        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission('chapter-view', $chapter);
+
+        session()->flashInput(['name' => $chapter->name]);
+
+        return view('chapters.copy', [
+            'book'    => $chapter->book,
+            'chapter' => $chapter,
+        ]);
+    }
+
+    /**
+     * Create a copy of a chapter within the requested target destination.
+     *
+     * @throws NotFoundException
+     * @throws Throwable
+     */
+    public function copy(Request $request, Cloner $cloner, string $bookSlug, string $chapterSlug)
+    {
+        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission('chapter-view', $chapter);
+
+        $entitySelection = $request->get('entity_selection') ?: null;
+        $newParentBook = $entitySelection ? $this->chapterRepo->findParentByIdentifier($entitySelection) : $chapter->getParent();
+
+        if (is_null($newParentBook)) {
+            $this->showErrorNotification(trans('errors.selected_book_not_found'));
+
+            return redirect()->back();
+        }
+
+        $this->checkOwnablePermission('chapter-create', $newParentBook);
+
+        $newName = $request->get('name') ?: $chapter->name;
+        $chapterCopy = $cloner->cloneChapter($chapter, $newParentBook, $newName);
+        $this->showSuccessNotification(trans('entities.chapters_copy_success'));
+
+        return redirect($chapterCopy->getUrl());
     }
 
     /**
@@ -220,5 +272,20 @@ class ChapterController extends Controller
         $this->showSuccessNotification(trans('entities.chapters_permissions_success'));
 
         return redirect($chapter->getUrl());
+    }
+
+    /**
+     * Convert the chapter to a book.
+     */
+    public function convertToBook(HierarchyTransformer $transformer, string $bookSlug, string $chapterSlug)
+    {
+        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission('chapter-update', $chapter);
+        $this->checkOwnablePermission('chapter-delete', $chapter);
+        $this->checkPermission('book-create-all');
+
+        $book = $transformer->transformChapterToBook($chapter);
+
+        return redirect($book->getUrl());
     }
 }

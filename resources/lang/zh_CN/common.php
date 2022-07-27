@@ -47,6 +47,8 @@ return [
     'previous' => '上一页',
     'filter_active' => '标签过滤器：',
     'filter_clear' => '清除过滤器',
+    'download' => '下载',
+    'open_in_tab' => '在标签页中打开。',
 
     // Sort Options
     'sort_options' => '排序选项',
@@ -71,6 +73,11 @@ return [
     'list_view' => '列表视图',
     'default' => '默认',
     'breadcrumb' => '面包屑导航',
+    'status' => '状态',
+    'status_active' => '已激活',
+    'status_inactive' => '未激活',
+    'never' => '从未',
+    'none' => '无',
 
     // Header
     'header_menu_expand' => '展开标头菜单',

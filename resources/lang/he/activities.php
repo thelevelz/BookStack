@@ -6,42 +6,46 @@
 return [
 
     // Pages
-    'page_create'                 => 'created page',
+    'page_create'                 => 'דף נוצר',
     'page_create_notification'    => 'הדף נוצר בהצלחה',
-    'page_update'                 => 'updated page',
+    'page_update'                 => 'דף עודכן',
     'page_update_notification'    => 'הדף עודכן בהצלחה',
-    'page_delete'                 => 'deleted page',
+    'page_delete'                 => 'דף נמחק',
     'page_delete_notification'    => 'הדף הוסר בהצלחה',
-    'page_restore'                => 'restored page',
+    'page_restore'                => 'דף שוחזר',
     'page_restore_notification'   => 'הדף שוחזר בהצלחה',
-    'page_move'                   => 'moved page',
+    'page_move'                   => 'דף הועבר',
 
     // Chapters
-    'chapter_create'              => 'created chapter',
+    'chapter_create'              => 'פרק נוצר',
     'chapter_create_notification' => 'הפרק נוצר בהצלחה',
-    'chapter_update'              => 'updated chapter',
+    'chapter_update'              => 'פרק עודכן',
     'chapter_update_notification' => 'הפרק עודכן בהצלחה',
-    'chapter_delete'              => 'deleted chapter',
-    'chapter_delete_notification' => 'הפרק הוסר בהצלחה',
-    'chapter_move'                => 'moved chapter',
+    'chapter_delete'              => 'פרק נמחק',
+    'chapter_delete_notification' => 'הפרק נמחק בהצלחה',
+    'chapter_move'                => 'פרק הועבר',
 
     // Books
-    'book_create'                 => 'created book',
-    'book_create_notification'    => 'הספר נוצר בהצלחה',
-    'book_update'                 => 'updated book',
-    'book_update_notification'    => 'הספר עודכן בהצלחה',
-    'book_delete'                 => 'deleted book',
-    'book_delete_notification'    => 'הספר הוסר בהצלחה',
+    'book_create'                 => 'ספר נוצר',
+    'book_create_notification'    => 'ספר נוצר בהצלחה',
+    'book_create_from_chapter'              => 'converted chapter to book',
+    'book_create_from_chapter_notification' => 'Chapter successfully converted to a book',
+    'book_update'                 => 'ספר הועדכן',
+    'book_update_notification'    => 'ספר התעדכן בהצלחה',
+    'book_delete'                 => 'ספר נמחק',
+    'book_delete_notification'    => 'ספר נמחק בהצלחה',
     'book_sort'                   => 'sorted book',
-    'book_sort_notification'      => 'הספר מוין מחדש בהצלחה',
+    'book_sort_notification'      => 'Book successfully re-sorted',
 
     // Bookshelves
-    'bookshelf_create'            => 'created Bookshelf',
-    'bookshelf_create_notification'    => 'מדף הספרים נוצר בהצלחה',
+    'bookshelf_create'            => 'created bookshelf',
+    'bookshelf_create_notification'    => 'Bookshelf successfully created',
+    'bookshelf_create_from_book'    => 'converted book to bookshelf',
+    'bookshelf_create_from_book_notification'    => 'Book successfully converted to a shelf',
     'bookshelf_update'                 => 'updated bookshelf',
-    'bookshelf_update_notification'    => 'מדף הספרים עודכן בהצלחה',
+    'bookshelf_update_notification'    => 'Bookshelf successfully updated',
     'bookshelf_delete'                 => 'deleted bookshelf',
-    'bookshelf_delete_notification'    => 'מדף הספרים הוסר בהצלחה',
+    'bookshelf_delete_notification'    => 'Bookshelf successfully deleted',
 
     // Favourites
     'favourite_add_notification' => '":name" has been added to your favourites',
@@ -50,6 +54,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Multi-factor method successfully configured',
     'mfa_remove_method_notification' => 'Multi-factor method successfully removed',
+
+    // Webhooks
+    'webhook_create' => 'created webhook',
+    'webhook_create_notification' => 'Webhook successfully created',
+    'webhook_update' => 'updated webhook',
+    'webhook_update_notification' => 'Webhook successfully updated',
+    'webhook_delete' => 'deleted webhook',
+    'webhook_delete_notification' => 'Webhook successfully deleted',
+
+    // Users
+    'user_update_notification' => 'User successfully updated',
+    'user_delete_notification' => 'User successfully removed',
 
     // Other
     'commented_on'                => 'commented on',

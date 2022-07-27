@@ -149,8 +149,8 @@ class PageContentTest extends TestCase
 
             $pageView = $this->get($page->getUrl());
             $pageView->assertStatus(200);
-            $pageView->assertElementNotContains('.page-content', '<script>');
-            $pageView->assertElementNotContains('.page-content', '</script>');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', '<script>');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', '</script>');
         }
     }
 
@@ -185,13 +185,14 @@ class PageContentTest extends TestCase
 
             $pageView = $this->get($page->getUrl());
             $pageView->assertStatus(200);
-            $pageView->assertElementNotContains('.page-content', '<iframe>');
-            $pageView->assertElementNotContains('.page-content', '<img');
-            $pageView->assertElementNotContains('.page-content', '</iframe>');
-            $pageView->assertElementNotContains('.page-content', 'src=');
-            $pageView->assertElementNotContains('.page-content', 'javascript:');
-            $pageView->assertElementNotContains('.page-content', 'data:');
-            $pageView->assertElementNotContains('.page-content', 'base64');
+            $html = $this->withHtml($pageView);
+            $html->assertElementNotContains('.page-content', '<iframe>');
+            $html->assertElementNotContains('.page-content', '<img');
+            $html->assertElementNotContains('.page-content', '</iframe>');
+            $html->assertElementNotContains('.page-content', 'src=');
+            $html->assertElementNotContains('.page-content', 'javascript:');
+            $html->assertElementNotContains('.page-content', 'data:');
+            $html->assertElementNotContains('.page-content', 'base64');
         }
     }
 
@@ -213,8 +214,8 @@ class PageContentTest extends TestCase
 
             $pageView = $this->get($page->getUrl());
             $pageView->assertStatus(200);
-            $pageView->assertElementNotContains('.page-content', '<a id="xss"');
-            $pageView->assertElementNotContains('.page-content', 'href=javascript:');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', '<a id="xss"');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'href=javascript:');
         }
     }
 
@@ -237,11 +238,11 @@ class PageContentTest extends TestCase
 
             $pageView = $this->get($page->getUrl());
             $pageView->assertStatus(200);
-            $pageView->assertElementNotContains('.page-content', '<button id="xss"');
-            $pageView->assertElementNotContains('.page-content', '<input id="xss"');
-            $pageView->assertElementNotContains('.page-content', '<form id="xss"');
-            $pageView->assertElementNotContains('.page-content', 'action=javascript:');
-            $pageView->assertElementNotContains('.page-content', 'formaction=javascript:');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', '<button id="xss"');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', '<input id="xss"');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', '<form id="xss"');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'action=javascript:');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'formaction=javascript:');
         }
     }
 
@@ -262,10 +263,10 @@ class PageContentTest extends TestCase
 
             $pageView = $this->get($page->getUrl());
             $pageView->assertStatus(200);
-            $pageView->assertElementNotContains('.page-content', '<meta>');
-            $pageView->assertElementNotContains('.page-content', '</meta>');
-            $pageView->assertElementNotContains('.page-content', 'content=');
-            $pageView->assertElementNotContains('.page-content', 'external_url');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', '<meta>');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', '</meta>');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'content=');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'external_url');
         }
     }
 
@@ -305,7 +306,7 @@ class PageContentTest extends TestCase
 
             $pageView = $this->get($page->getUrl());
             $pageView->assertStatus(200);
-            $pageView->assertElementNotContains('.page-content', 'onclick');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'onclick');
         }
     }
 
@@ -340,9 +341,9 @@ class PageContentTest extends TestCase
 
             $pageView = $this->get($page->getUrl());
             $pageView->assertStatus(200);
-            $pageView->assertElementNotContains('.page-content', 'alert');
-            $pageView->assertElementNotContains('.page-content', 'xlink:href');
-            $pageView->assertElementNotContains('.page-content', 'application/xml');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'alert');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'xlink:href');
+            $this->withHtml($pageView)->assertElementNotContains('.page-content', 'application/xml');
         }
     }
 
@@ -506,7 +507,7 @@ class PageContentTest extends TestCase
         $this->assertStringContainsString('</tbody>', $page->html);
 
         $pageView = $this->get($page->getUrl());
-        $pageView->assertElementExists('.page-content table tbody td');
+        $this->withHtml($pageView)->assertElementExists('.page-content table tbody td');
     }
 
     public function test_page_markdown_task_list_rendering()
@@ -526,8 +527,8 @@ class PageContentTest extends TestCase
         $this->assertStringContainsString('type="checkbox"', $page->html);
 
         $pageView = $this->get($page->getUrl());
-        $pageView->assertElementExists('.page-content li.task-list-item input[type=checkbox]');
-        $pageView->assertElementExists('.page-content li.task-list-item input[type=checkbox][checked=checked]');
+        $this->withHtml($pageView)->assertElementExists('.page-content li.task-list-item input[type=checkbox]');
+        $this->withHtml($pageView)->assertElementExists('.page-content li.task-list-item input[type=checkbox][checked]');
     }
 
     public function test_page_markdown_strikethrough_rendering()
@@ -545,7 +546,7 @@ class PageContentTest extends TestCase
         $this->assertStringMatchesFormat('%A<s%A>some crossed out text</s>%A', $page->html);
 
         $pageView = $this->get($page->getUrl());
-        $pageView->assertElementExists('.page-content p > s');
+        $this->withHtml($pageView)->assertElementExists('.page-content p > s');
     }
 
     public function test_page_markdown_single_html_comment_saving()
@@ -657,37 +658,78 @@ class PageContentTest extends TestCase
         $this->deleteImage($imagePath);
     }
 
-    public function test_base64_images_within_markdown_blanked_if_not_supported_extension_for_extract()
+    public function test_markdown_base64_extract_not_limited_by_pcre_limits()
     {
+        $pcreBacktrackLimit = ini_get('pcre.backtrack_limit');
+        $pcreRecursionLimit = ini_get('pcre.recursion_limit');
+
         $this->asEditor();
         $page = Page::query()->first();
 
+        ini_set('pcre.backtrack_limit', '500');
+        ini_set('pcre.recursion_limit', '500');
+
+        $content = str_repeat('a', 5000);
+        $base64Content = base64_encode($content);
+
         $this->put($page->getUrl(), [
+            'name'     => $page->name, 'summary' => '',
+            'markdown' => 'test ![test](data:image/jpeg;base64,' . $base64Content . ') ![test](data:image/jpeg;base64,' . $base64Content . ')',
+        ]);
+
+        $page->refresh();
+        $this->assertStringMatchesFormat('<p%A>test <img src="http://localhost/uploads/images/gallery/%A.jpeg" alt="test"> <img src="http://localhost/uploads/images/gallery/%A.jpeg" alt="test">%A</p>%A', $page->html);
+
+        $matches = [];
+        preg_match('/src="http:\/\/localhost(.*?)"/', $page->html, $matches);
+        $imagePath = $matches[1];
+        $imageFile = public_path($imagePath);
+        $this->assertEquals($content, file_get_contents($imageFile));
+
+        $this->deleteImage($imagePath);
+        ini_set('pcre.backtrack_limit', $pcreBacktrackLimit);
+        ini_set('pcre.recursion_limit', $pcreRecursionLimit);
+    }
+
+    public function test_base64_images_within_markdown_blanked_if_not_supported_extension_for_extract()
+    {
+        $page = Page::query()->first();
+
+        $this->asEditor()->put($page->getUrl(), [
             'name'     => $page->name, 'summary' => '',
             'markdown' => 'test ![test](data:image/jiff;base64,' . $this->base64Jpeg . ')',
         ]);
 
-        $page->refresh();
-        $this->assertStringContainsString('<img src=""', $page->html);
+        $this->assertStringContainsString('<img src=""', $page->refresh()->html);
     }
 
     public function test_nested_headers_gets_assigned_an_id()
     {
-        $this->asEditor();
         $page = Page::query()->first();
 
         $content = '<table><tbody><tr><td><h5>Simple Test</h5></td></tr></tbody></table>';
-        $this->put($page->getUrl(), [
+        $this->asEditor()->put($page->getUrl(), [
             'name'    => $page->name,
             'html'    => $content,
-            'summary' => '',
         ]);
-
-        $updatedPage = Page::query()->where('id', '=', $page->id)->first();
 
         // The top level <table> node will get assign the bkmrk-simple-test id because the system will
         // take the node value of h5
         // So the h5 should get the bkmrk-simple-test-1 id
-        $this->assertStringContainsString('<h5 id="bkmrk-simple-test-1">Simple Test</h5>', $updatedPage->html);
+        $this->assertStringContainsString('<h5 id="bkmrk-simple-test-1">Simple Test</h5>', $page->refresh()->html);
+    }
+
+    public function test_non_breaking_spaces_are_preserved()
+    {
+        /** @var Page $page */
+        $page = Page::query()->first();
+
+        $content = '<p>&nbsp;</p>';
+        $this->asEditor()->put($page->getUrl(), [
+            'name'    => $page->name,
+            'html'    => $content,
+        ]);
+
+        $this->assertStringContainsString('<p id="bkmrk-%C2%A0">&nbsp;</p>', $page->refresh()->html);
     }
 }

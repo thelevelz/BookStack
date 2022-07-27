@@ -47,6 +47,8 @@ return [
     'previous' => 'Предыдущая',
     'filter_active' => 'Активный фильтр:',
     'filter_clear' => 'Сбросить фильтр',
+    'download' => 'Загрузить',
+    'open_in_tab' => 'Открыть во вкладке',
 
     // Sort Options
     'sort_options' => 'Параметры сортировки',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Вид списком',
     'default' => 'По умолчанию',
     'breadcrumb' => 'Навигация',
+    'status' => 'Состояние',
+    'status_active' => 'Активен',
+    'status_inactive' => 'Неактивен',
+    'never' => 'Никогда',
+    'none' => 'Нет',
 
     // Header
     'header_menu_expand' => 'Развернуть меню заголовка',

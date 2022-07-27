@@ -6,14 +6,13 @@ use BookStack\Actions\ActivityType;
 use BookStack\Auth\User;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Filesystem\Cache;
+use Illuminate\Testing\TestResponse;
 use Tests\Helpers\OidcJwtHelper;
 use Tests\TestCase;
-use Tests\TestResponse;
 
 class OidcTest extends TestCase
 {
-    protected $keyFilePath;
+    protected string $keyFilePath;
     protected $keyFile;
 
     protected function setUp(): void
@@ -53,7 +52,7 @@ class OidcTest extends TestCase
     {
         $req = $this->get('/login');
         $req->assertSeeText('SingleSignOn-Testing');
-        $req->assertElementExists('form[action$="/oidc/login"][method=POST] button');
+        $this->withHtml($req)->assertElementExists('form[action$="/oidc/login"][method=POST] button');
     }
 
     public function test_oidc_routes_are_only_active_if_oidc_enabled()
@@ -236,22 +235,24 @@ class OidcTest extends TestCase
 
         $this->assertFalse(auth()->check());
 
-        $this->runLogin([
+        $resp = $this->runLogin([
             'email' => $editor->email,
             'sub'   => 'benny505',
         ]);
+        $resp = $this->followRedirects($resp);
 
-        $this->assertSessionError('A user with the email ' . $editor->email . ' already exists but with different credentials.');
+        $resp->assertSeeText('A user with the email ' . $editor->email . ' already exists but with different credentials.');
         $this->assertFalse(auth()->check());
     }
 
     public function test_auth_login_with_invalid_token_fails()
     {
-        $this->runLogin([
+        $resp = $this->runLogin([
             'sub' => null,
         ]);
+        $resp = $this->followRedirects($resp);
 
-        $this->assertSessionError('ID token validate failed with error: Missing token subject value');
+        $resp->assertSeeText('ID token validate failed with error: Missing token subject value');
         $this->assertFalse(auth()->check());
     }
 
@@ -287,9 +288,9 @@ class OidcTest extends TestCase
             new Response(404, [], 'Not found'),
         ]);
 
-        $this->runLogin();
+        $resp = $this->followRedirects($this->runLogin());
         $this->assertFalse(auth()->check());
-        $this->assertSessionError('Login using SingleSignOn-Testing failed, system did not provide successful authorization');
+        $resp->assertSeeText('Login using SingleSignOn-Testing failed, system did not provide successful authorization');
     }
 
     public function test_autodiscovery_calls_are_cached()
@@ -316,6 +317,31 @@ class OidcTest extends TestCase
         config()->set(['oidc.issuer' => 'https://auto.example.com']);
         $this->post('/oidc/login');
         $this->assertCount(4, $transactions);
+    }
+
+    public function test_auth_login_with_autodiscovery_with_keys_that_do_not_have_alg_property()
+    {
+        $this->withAutodiscovery();
+
+        $keyArray = OidcJwtHelper::publicJwkKeyArray();
+        unset($keyArray['alg']);
+
+        $this->mockHttpClient([
+            $this->getAutoDiscoveryResponse(),
+            new Response(200, [
+                'Content-Type'  => 'application/json',
+                'Cache-Control' => 'no-cache, no-store',
+                'Pragma'        => 'no-cache',
+            ], json_encode([
+                'keys' => [
+                    $keyArray,
+                ],
+            ])),
+        ]);
+
+        $this->assertFalse(auth()->check());
+        $this->runLogin();
+        $this->assertTrue(auth()->check());
     }
 
     protected function withAutodiscovery()

@@ -21,7 +21,7 @@ return [
     'email' => 'E-mail',
     'password' => 'Heslo',
     'password_confirm' => 'Potvrdiť heslo',
-    'password_hint' => 'Musí mať viac ako 7 znakov',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'Zabudli ste heslo?',
     'remember_me' => 'Zapamätať si ma',
     'ldap_email_hint' => 'Zadajte prosím e-mail, ktorý sa má použiť pre tento účet.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Registrácie sú momentálne zablokované',
     'registration_email_domain_invalid' => 'Táto e-mailová doména nemá prístup k tejto aplikácii',
     'register_success' => 'Ďakujeme za registráciu! Teraz ste registrovaný a prihlásený.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
     'reset_password' => 'Resetovanie hesla',

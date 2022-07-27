@@ -5,6 +5,7 @@ namespace BookStack\Uploads;
 use BookStack\Exceptions\ImageUploadException;
 use ErrorException;
 use Exception;
+use GuzzleHttp\Psr7\Utils;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem as Storage;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Intervention\Image\Exception\NotSupportedException;
+use Intervention\Image\Image as InterventionImage;
 use Intervention\Image\ImageManager;
 use League\Flysystem\Util;
 use Psr\SimpleCache\InvalidArgumentException;
@@ -229,6 +231,21 @@ class ImageService
     }
 
     /**
+     * Check if the given image and image data is apng.
+     */
+    protected function isApngData(Image $image, string &$imageData): bool
+    {
+        $isPng = strtolower(pathinfo($image->path, PATHINFO_EXTENSION)) === 'png';
+        if (!$isPng) {
+            return false;
+        }
+
+        $initialHeader = substr($imageData, 0, strpos($imageData, 'IDAT'));
+
+        return strpos($initialHeader, 'acTL') !== false;
+    }
+
+    /**
      * Get the thumbnail for an image.
      * If $keepRatio is true only the width will be used.
      * Checks the cache then storage to avoid creating / accessing the filesystem on every check.
@@ -238,6 +255,7 @@ class ImageService
      */
     public function getThumbnail(Image $image, ?int $width, ?int $height, bool $keepRatio = false): string
     {
+        // Do not resize GIF images where we're not cropping
         if ($keepRatio && $this->isGif($image)) {
             return $this->getPublicUrl($image->path);
         }
@@ -246,19 +264,35 @@ class ImageService
         $imagePath = $image->path;
         $thumbFilePath = dirname($imagePath) . $thumbDirName . basename($imagePath);
 
-        if ($this->cache->has('images-' . $image->id . '-' . $thumbFilePath) && $this->cache->get('images-' . $thumbFilePath)) {
-            return $this->getPublicUrl($thumbFilePath);
+        $thumbCacheKey = 'images::' . $image->id . '::' . $thumbFilePath;
+
+        // Return path if in cache
+        $cachedThumbPath = $this->cache->get($thumbCacheKey);
+        if ($cachedThumbPath) {
+            return $this->getPublicUrl($cachedThumbPath);
         }
 
+        // If thumbnail has already been generated, serve that and cache path
         $storage = $this->getStorageDisk($image->type);
         if ($storage->exists($this->adjustPathForStorageDisk($thumbFilePath, $image->type))) {
+            $this->cache->put($thumbCacheKey, $thumbFilePath, 60 * 60 * 72);
+
             return $this->getPublicUrl($thumbFilePath);
         }
 
-        $thumbData = $this->resizeImage($storage->get($this->adjustPathForStorageDisk($imagePath, $image->type)), $width, $height, $keepRatio);
+        $imageData = $storage->get($this->adjustPathForStorageDisk($imagePath, $image->type));
 
+        // Do not resize apng images where we're not cropping
+        if ($keepRatio && $this->isApngData($image, $imageData)) {
+            $this->cache->put($thumbCacheKey, $image->path, 60 * 60 * 72);
+
+            return $this->getPublicUrl($image->path);
+        }
+
+        // If not in cache and thumbnail does not exist, generate thumb and cache path
+        $thumbData = $this->resizeImage($imageData, $width, $height, $keepRatio);
         $this->saveImageDataInPublicSpace($storage, $this->adjustPathForStorageDisk($thumbFilePath, $image->type), $thumbData);
-        $this->cache->put('images-' . $image->id . '-' . $thumbFilePath, $thumbFilePath, 60 * 60 * 72);
+        $this->cache->put($thumbCacheKey, $thumbFilePath, 60 * 60 * 72);
 
         return $this->getPublicUrl($thumbFilePath);
     }
@@ -275,6 +309,8 @@ class ImageService
         } catch (ErrorException|NotSupportedException $e) {
             throw new ImageUploadException(trans('errors.cannot_create_thumbs'));
         }
+
+        $this->orientImageToOriginalExif($thumb, $imageData);
 
         if ($keepRatio) {
             $thumb->resize($width, $height, function ($constraint) {
@@ -294,6 +330,49 @@ class ImageService
         }
 
         return $thumbData;
+    }
+
+    /**
+     * Orientate the given intervention image based upon the given original image data.
+     * Intervention does have an `orientate` method but the exif data it needs is lost before it
+     * can be used (At least when created using binary string data) so we need to do some
+     * implementation on our side to use the original image data.
+     * Bulk of logic taken from: https://github.com/Intervention/image/blob/b734a4988b2148e7d10364b0609978a88d277536/src/Intervention/Image/Commands/OrientateCommand.php
+     * Copyright (c) Oliver Vogel, MIT License.
+     */
+    protected function orientImageToOriginalExif(InterventionImage $image, string $originalData): void
+    {
+        if (!extension_loaded('exif')) {
+            return;
+        }
+
+        $stream = Utils::streamFor($originalData)->detach();
+        $exif = @exif_read_data($stream);
+        $orientation = $exif ? ($exif['Orientation'] ?? null) : null;
+
+        switch ($orientation) {
+            case 2:
+                $image->flip();
+                break;
+            case 3:
+                $image->rotate(180);
+                break;
+            case 4:
+                $image->rotate(180)->flip();
+                break;
+            case 5:
+                $image->rotate(270)->flip();
+                break;
+            case 6:
+                $image->rotate(270);
+                break;
+            case 7:
+                $image->rotate(90)->flip();
+                break;
+            case 8:
+                $image->rotate(90);
+                break;
+        }
     }
 
     /**

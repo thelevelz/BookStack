@@ -47,6 +47,8 @@ return [
     'previous' => 'Précédent',
     'filter_active' => 'Filtre actif :',
     'filter_clear' => 'Effacer le filtre',
+    'download' => 'Télécharger',
+    'open_in_tab' => 'Ouvrir dans un onglet',
 
     // Sort Options
     'sort_options' => 'Options de tri',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Vue en liste',
     'default' => 'Défaut',
     'breadcrumb' => 'Fil d\'Ariane',
+    'status' => 'Statut',
+    'status_active' => 'Actif',
+    'status_inactive' => 'Inactif',
+    'never' => 'Jamais',
+    'none' => 'Aucun',
 
     // Header
     'header_menu_expand' => 'Développer le menu',

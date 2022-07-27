@@ -11,6 +11,7 @@ use BookStack\Auth\Access\LoginService;
 use BookStack\Auth\Access\RegistrationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Password Configuration
+        // Changes here must be reflected in ApiDocsGenerate@getValidationAsString.
+        Password::defaults(function () {
+            return Password::min(8);
+        });
+
+        // Custom guards
         Auth::extend('api-token', function ($app, $name, array $config) {
             return new ApiTokenGuard($app['request'], $app->make(LoginService::class));
         });

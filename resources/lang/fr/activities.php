@@ -28,16 +28,20 @@ return [
     // Books
     'book_create'                 => 'a créé un livre',
     'book_create_notification'    => 'Livre créé avec succès',
+    'book_create_from_chapter'              => 'chapitre converti en livre',
+    'book_create_from_chapter_notification' => 'Chapitre converti en livre avec succès',
     'book_update'                 => 'a modifié le livre',
     'book_update_notification'    => 'Livre modifié avec succès',
     'book_delete'                 => 'a supprimé un livre',
     'book_delete_notification'    => 'Livre supprimé avec succès',
     'book_sort'                   => 'a réordonné le livre',
-    'book_sort_notification'      => 'Livre réordonné avec succès',
+    'book_sort_notification'      => 'Livre restauré avec succès',
 
     // Bookshelves
     'bookshelf_create'            => 'a créé l\'étagère',
     'bookshelf_create_notification'    => 'Étagère créée avec succès',
+    'bookshelf_create_from_book'    => 'livre converti en étagère',
+    'bookshelf_create_from_book_notification'    => 'Livre converti en étagère avec succès',
     'bookshelf_update'                 => 'a modifié l\'étagère',
     'bookshelf_update_notification'    => 'Étagère modifiée avec succès',
     'bookshelf_delete'                 => 'a supprimé l\'étagère',
@@ -50,6 +54,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Méthode multi-facteurs configurée avec succès',
     'mfa_remove_method_notification' => 'Méthode multi-facteurs supprimée avec succès',
+
+    // Webhooks
+    'webhook_create' => 'Créer un Webhook',
+    'webhook_create_notification' => 'Webhook créé avec succès',
+    'webhook_update' => 'éditer un Webhook',
+    'webhook_update_notification' => 'Webhook modifié avec succès',
+    'webhook_delete' => 'supprimer un Webhook',
+    'webhook_delete_notification' => 'Webhook supprimé avec succès',
+
+    // Users
+    'user_update_notification' => 'Utilisateur mis à jour avec succès',
+    'user_delete_notification' => 'Utilisateur supprimé avec succès',
 
     // Other
     'commented_on'                => 'a commenté',

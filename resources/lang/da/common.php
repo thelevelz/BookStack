@@ -45,8 +45,10 @@ return [
     'unfavourite' => 'Fjern som foretrukken',
     'next' => 'Næste',
     'previous' => 'Forrige',
-    'filter_active' => 'Active Filter:',
-    'filter_clear' => 'Clear Filter',
+    'filter_active' => 'Aktivt Filter:',
+    'filter_clear' => 'Nulstil Filter',
+    'download' => 'Hent',
+    'open_in_tab' => 'Åben i ny fane',
 
     // Sort Options
     'sort_options' => 'Sorteringsindstillinger',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Listevisning',
     'default' => 'Standard',
     'breadcrumb' => 'Brødkrumme',
+    'status' => 'Status',
+    'status_active' => 'Aktiv',
+    'status_inactive' => 'Inaktiv',
+    'never' => 'Aldrig',
+    'none' => 'Ingen',
 
     // Header
     'header_menu_expand' => 'Udvid header menu',

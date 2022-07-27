@@ -45,8 +45,10 @@ return [
     'unfavourite' => 'お気に入りから削除',
     'next' => '次へ',
     'previous' => '前へ',
-    'filter_active' => 'Active Filter:',
-    'filter_clear' => 'Clear Filter',
+    'filter_active' => '有効なフィルター:',
+    'filter_clear' => 'フィルターを解除',
+    'download' => 'ダウンロード',
+    'open_in_tab' => 'タブで開く',
 
     // Sort Options
     'sort_options' => '並べ替えオプション',
@@ -63,7 +65,7 @@ return [
     'no_activity' => '表示するアクティビティがありません',
     'no_items' => 'アイテムはありません',
     'back_to_top' => '上に戻る',
-    'skip_to_main_content' => 'Skip to main content',
+    'skip_to_main_content' => 'メインコンテンツへスキップ',
     'toggle_details' => '概要の表示切替',
     'toggle_thumbnails' => 'Toggle Thumbnails',
     'details' => '詳細',
@@ -71,20 +73,25 @@ return [
     'list_view' => 'リスト形式',
     'default' => 'デフォルト',
     'breadcrumb' => 'パンくずリスト',
+    'status' => '状態',
+    'status_active' => '有効',
+    'status_inactive' => '無効',
+    'never' => '該当なし',
+    'none' => 'なし',
 
     // Header
-    'header_menu_expand' => 'Expand Header Menu',
-    'profile_menu' => 'Profile Menu',
+    'header_menu_expand' => 'ヘッダーメニューを展開',
+    'profile_menu' => 'プロフィールメニュー',
     'view_profile' => 'プロフィール表示',
     'edit_profile' => 'プロフィール編集',
     'dark_mode' => 'ダークモード',
     'light_mode' => 'ライトモード',
 
     // Layout tabs
-    'tab_info' => 'Info',
-    'tab_info_label' => 'Tab: Show Secondary Information',
-    'tab_content' => 'Content',
-    'tab_content_label' => 'Tab: Show Primary Content',
+    'tab_info' => '情報',
+    'tab_info_label' => 'タブ: サブコンテンツを表示',
+    'tab_content' => '内容',
+    'tab_content_label' => 'タブ: メインコンテンツを表示',
 
     // Email Content
     'email_action_help' => '":actionText" をクリックできない場合、以下のURLをコピーしブラウザで開いてください:',

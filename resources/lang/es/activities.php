@@ -28,6 +28,8 @@ return [
     // Books
     'book_create'                 => 'libro creado',
     'book_create_notification'    => 'Libro creado correctamente',
+    'book_create_from_chapter'              => 'convertido capítulo a libro',
+    'book_create_from_chapter_notification' => 'Capítulo convertido a libro con éxito',
     'book_update'                 => 'libro actualizado',
     'book_update_notification'    => 'Libro actualizado correctamente',
     'book_delete'                 => 'libro eliminado',
@@ -38,6 +40,8 @@ return [
     // Bookshelves
     'bookshelf_create'            => 'estante creado',
     'bookshelf_create_notification'    => 'Estante creado correctamente',
+    'bookshelf_create_from_book'    => 'convertido libro a estante',
+    'bookshelf_create_from_book_notification'    => 'Libro convertido a estante con éxito',
     'bookshelf_update'                 => 'estante actualizado',
     'bookshelf_update_notification'    => 'Estante actualizado correctamente',
     'bookshelf_delete'                 => 'estante eliminado',
@@ -50,6 +54,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Método de Autenticación en Dos Pasos configurado correctamente',
     'mfa_remove_method_notification' => 'Método de Autenticación en Dos Pasos eliminado correctamente',
+
+    // Webhooks
+    'webhook_create' => 'webhook creado',
+    'webhook_create_notification' => 'Webhook creado correctamente',
+    'webhook_update' => 'webhook actualizado',
+    'webhook_update_notification' => 'Webhook actualizado correctamente',
+    'webhook_delete' => 'webhook eliminado',
+    'webhook_delete_notification' => 'Webhook eliminado correctamente',
+
+    // Users
+    'user_update_notification' => 'Usuario actualizado correctamente',
+    'user_delete_notification' => 'Usuario eliminado correctamente',
 
     // Other
     'commented_on'                => 'comentada el',

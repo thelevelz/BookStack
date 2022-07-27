@@ -66,7 +66,6 @@
   @include lightDark(background-color, #FFF, #222);
   box-shadow: $bs-card;
   border-radius: 3px;
-  border: 1px solid transparent;
   .body, p.empty-text {
     padding: $-m;
   }
@@ -238,13 +237,13 @@
 }
 
 .fade-in-when-active {
-  opacity: 0.6;
+  @include lightDark(opacity, 0.6, 0.7);
   transition: opacity ease-in-out 120ms;
   &:hover, &:focus-within {
-    opacity: 1;
+    opacity: 1 !important;
   }
   @media (prefers-contrast: more) {
-    opacity: 1;
+    opacity: 1 !important;
   }
 }
 

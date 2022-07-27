@@ -32,6 +32,7 @@ return [
     'digits_between'       => ':attribute muss zwischen :min und :max Stellen haben.',
     'email'                => ':attribute muss eine valide E-Mail-Adresse sein.',
     'ends_with' => ':attribute muss mit einem der folgenden Werte: :values enden',
+    'file'                 => ':attribute muss als gültige Datei angegeben werden.',
     'filled'               => ':attribute ist erforderlich.',
     'gt'                   => [
         'numeric' => ':attribute muss größer als :value sein.',
@@ -98,7 +99,7 @@ return [
         'array'   => ':attribute muss :size Elemente enthalten.',
     ],
     'string'               => ':attribute muss eine Zeichenkette sein.',
-    'timezone'             => ':attribute muss eine valide zeitzone sein.',
+    'timezone'             => ':attribute muss eine valide Zeitzone sein.',
     'totp'                 => 'Der angegebene Code ist ungültig oder abgelaufen.',
     'unique'               => ':attribute wird bereits verwendet.',
     'url'                  => ':attribute ist kein valides Format.',

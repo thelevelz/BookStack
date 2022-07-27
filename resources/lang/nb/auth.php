@@ -21,7 +21,7 @@ return [
     'email' => 'E-post',
     'password' => 'Passord',
     'password_confirm' => 'Bekreft passord',
-    'password_hint' => 'Må inneholde 7 tegn',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'Glemt passord?',
     'remember_me' => 'Husk meg',
     'ldap_email_hint' => 'Oppgi en e-post for denne kontoen.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Registrering er deaktivert.',
     'registration_email_domain_invalid' => 'Du kan ikke bruke det domenet for å registrere en konto.',
     'register_success' => 'Takk for registreringen! Du kan nå logge inn på tjenesten.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
     'reset_password' => 'Nullstille passord',

@@ -18,7 +18,7 @@ return [
 
     // Chapters
     'chapter_create'              => 'تم إنشاء فصل',
-    'chapter_create_notification' => 'تم إنشاء فصل بنجاح',
+    'chapter_create_notification' => 'تم إنشاء الفصل بنجاح',
     'chapter_update'              => 'تم تحديث الفصل',
     'chapter_update_notification' => 'تم تحديث الفصل بنجاح',
     'chapter_delete'              => 'تم حذف الفصل',
@@ -27,29 +27,45 @@ return [
 
     // Books
     'book_create'                 => 'تم إنشاء كتاب',
-    'book_create_notification'    => 'تم إنشاء كتاب بنجاح',
+    'book_create_notification'    => 'تم إنشاء الكتاب بنجاح',
+    'book_create_from_chapter'              => 'converted chapter to book',
+    'book_create_from_chapter_notification' => 'Chapter successfully converted to a book',
     'book_update'                 => 'تم تحديث الكتاب',
     'book_update_notification'    => 'تم تحديث الكتاب بنجاح',
     'book_delete'                 => 'تم حذف الكتاب',
     'book_delete_notification'    => 'تم حذف الكتاب بنجاح',
     'book_sort'                   => 'تم سرد الكتاب',
-    'book_sort_notification'      => 'أُعِيدَ سرد الكتاب بنجاح',
+    'book_sort_notification'      => 'تم إعادة فرز الكتاب بنجاح',
 
     // Bookshelves
-    'bookshelf_create'            => 'تم إنشاء رف الكتب',
+    'bookshelf_create'            => 'تم إنشاء رف كتب',
     'bookshelf_create_notification'    => 'تم إنشاء الرف بنجاح',
+    'bookshelf_create_from_book'    => 'converted book to bookshelf',
+    'bookshelf_create_from_book_notification'    => 'Book successfully converted to a shelf',
     'bookshelf_update'                 => 'تم تحديث الرف',
     'bookshelf_update_notification'    => 'تم تحديث الرف بنجاح',
     'bookshelf_delete'                 => 'تم تحديث الرف',
     'bookshelf_delete_notification'    => 'تم حذف الرف بنجاح',
 
     // Favourites
-    'favourite_add_notification' => '":name" has been added to your favourites',
-    'favourite_remove_notification' => '":name" has been removed from your favourites',
+    'favourite_add_notification' => 'تم إضافة ":name" إلى المفضلة لديك',
+    'favourite_remove_notification' => 'تم إزالة ":name" من المفضلة لديك',
 
     // MFA
-    'mfa_setup_method_notification' => 'Multi-factor method successfully configured',
-    'mfa_remove_method_notification' => 'Multi-factor method successfully removed',
+    'mfa_setup_method_notification' => 'تم تكوين طريقة متعددة العوامل بنجاح',
+    'mfa_remove_method_notification' => 'تمت إزالة طريقة متعددة العوامل بنجاح',
+
+    // Webhooks
+    'webhook_create' => 'تم إنشاء webhook',
+    'webhook_create_notification' => 'تم إنشاء Webhook بنجاح',
+    'webhook_update' => 'تم تحديث webhook',
+    'webhook_update_notification' => 'تم تحديث Webhook بنجاح',
+    'webhook_delete' => 'حذف webhook',
+    'webhook_delete_notification' => 'تم حذف Webhook بنجاح',
+
+    // Users
+    'user_update_notification' => 'تم تحديث المستخدم بنجاح',
+    'user_delete_notification' => 'تم إزالة المستخدم بنجاح',
 
     // Other
     'commented_on'                => 'تم التعليق',

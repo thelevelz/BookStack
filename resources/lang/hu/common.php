@@ -41,12 +41,14 @@ return [
     'add' => 'Hozzáadás',
     'configure' => 'Configure',
     'fullscreen' => 'Teljes képernyő',
-    'favourite' => 'Favourite',
-    'unfavourite' => 'Unfavourite',
-    'next' => 'Next',
-    'previous' => 'Previous',
-    'filter_active' => 'Active Filter:',
-    'filter_clear' => 'Clear Filter',
+    'favourite' => 'Kedvencekhez ad',
+    'unfavourite' => 'Kedvencekből eltávolít',
+    'next' => 'Következő',
+    'previous' => 'Előző',
+    'filter_active' => 'Aktív szűrő:',
+    'filter_clear' => 'Szűrő törlése',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'Rendezési beállítások',
@@ -54,7 +56,7 @@ return [
     'sort_ascending' => 'Növekvő sorrend',
     'sort_descending' => 'Csökkenő sorrend',
     'sort_name' => 'Név',
-    'sort_default' => 'Default',
+    'sort_default' => 'Alapértelmezett',
     'sort_created_at' => 'Létrehozás dátuma',
     'sort_updated_at' => 'Frissítés dátuma',
 
@@ -63,7 +65,7 @@ return [
     'no_activity' => 'Nincs megjeleníthető aktivitás',
     'no_items' => 'Nincsenek elérhető elemek',
     'back_to_top' => 'Oldal eleje',
-    'skip_to_main_content' => 'Skip to main content',
+    'skip_to_main_content' => 'Ugrás a fő tartalomra',
     'toggle_details' => 'Részletek átkapcsolása',
     'toggle_thumbnails' => 'Bélyegképek átkapcsolása',
     'details' => 'Részletek',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Lista nézet',
     'default' => 'Alapértelmezés szerinti',
     'breadcrumb' => 'Morzsa',
+    'status' => 'Státusz',
+    'status_active' => 'Aktív',
+    'status_inactive' => 'Inaktív',
+    'never' => 'Soha',
+    'none' => 'Egyik sem',
 
     // Header
     'header_menu_expand' => 'Expand Header Menu',
@@ -92,6 +99,6 @@ return [
 
     // Footer Link Options
     // Not directly used but available for convenience to users.
-    'privacy_policy' => 'Privacy Policy',
-    'terms_of_service' => 'Terms of Service',
+    'privacy_policy' => 'Adatvédelmi irányelvek',
+    'terms_of_service' => 'Felhasználási feltételek',
 ];

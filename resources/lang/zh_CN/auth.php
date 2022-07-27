@@ -12,7 +12,7 @@ return [
     // Login & Register
     'sign_up' => '注册',
     'log_in' => '登录',
-    'log_in_with' => '以:socialDriver登录',
+    'log_in_with' => '使用 :socialDriver 账户登录',
     'sign_up_with' => '通过 :socialDriver 账号登录',
     'logout' => '注销',
 
@@ -21,7 +21,7 @@ return [
     'email' => 'Email地址',
     'password' => '密码',
     'password_confirm' => '确认密码',
-    'password_hint' => '必须超过7个字符',
+    'password_hint' => '必须至少有 8 个字符',
     'forgot_password' => '忘记密码?',
     'remember_me' => '记住我',
     'ldap_email_hint' => '请输入用于此帐户的电子邮件。',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => '注册目前被禁用',
     'registration_email_domain_invalid' => '该Email域名无权访问此应用程序',
     'register_success' => '感谢您注册:appName，您现在已经登录。',
+
+    // Login auto-initiation
+    'auto_init_starting' => '尝试登录中',
+    'auto_init_starting_desc' => '我们正在联系您的身份验证系统以启动登录过程。如果 5 秒后还没有进展，您可以尝试点击下面的链接。',
+    'auto_init_start_link' => '继续进行身份验证',
 
     // Password Reset
     'reset_password' => '重置密码',

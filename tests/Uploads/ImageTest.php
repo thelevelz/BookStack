@@ -61,6 +61,19 @@ class ImageTest extends TestCase
         $this->assertEquals($originalFileSize, $displayFileSize, 'Display thumbnail generation should not increase image size');
     }
 
+    public function test_image_display_thumbnail_generation_for_apng_images_uses_original_file()
+    {
+        $page = Page::query()->first();
+        $admin = $this->getAdmin();
+        $this->actingAs($admin);
+
+        $imgDetails = $this->uploadGalleryImage($page, 'animated.png');
+        $this->deleteImage($imgDetails['path']);
+
+        $this->assertStringContainsString('thumbs-', $imgDetails['response']->thumbs->gallery);
+        $this->assertStringNotContainsString('thumbs-', $imgDetails['response']->thumbs->display);
+    }
+
     public function test_image_edit()
     {
         $editor = $this->getEditor();
@@ -91,11 +104,13 @@ class ImageTest extends TestCase
 
         $pageId = $imgDetails['page']->id;
         $firstPageRequest = $this->get("/images/gallery?page=1&uploaded_to={$pageId}");
-        $firstPageRequest->assertSuccessful()->assertElementExists('div');
+        $firstPageRequest->assertSuccessful();
+        $this->withHtml($firstPageRequest)->assertElementExists('div');
         $firstPageRequest->assertSuccessful()->assertSeeText($image->name);
 
         $secondPageRequest = $this->get("/images/gallery?page=2&uploaded_to={$pageId}");
-        $secondPageRequest->assertSuccessful()->assertElementNotExists('div');
+        $secondPageRequest->assertSuccessful();
+        $this->withHtml($secondPageRequest)->assertElementNotExists('div');
 
         $namePartial = substr($imgDetails['name'], 0, 3);
         $searchHitRequest = $this->get("/images/gallery?page=1&uploaded_to={$pageId}&search={$namePartial}");
@@ -104,7 +119,8 @@ class ImageTest extends TestCase
         $namePartial = Str::random(16);
         $searchFailRequest = $this->get("/images/gallery?page=1&uploaded_to={$pageId}&search={$namePartial}");
         $searchFailRequest->assertSuccessful()->assertDontSee($imgDetails['name']);
-        $searchFailRequest->assertSuccessful()->assertElementNotExists('div');
+        $searchFailRequest->assertSuccessful();
+        $this->withHtml($searchFailRequest)->assertElementNotExists('div');
     }
 
     public function test_image_usage()
@@ -301,8 +317,8 @@ class ImageTest extends TestCase
         $galleryFile = $this->getTestImage('my-system-test-upload.png');
         $expectedPath = public_path('uploads/images/system/' . date('Y-m') . '/my-system-test-upload.png');
 
-        $upload = $this->call('POST', '/settings', [], [], ['app_logo' => $galleryFile], []);
-        $upload->assertRedirect('/settings');
+        $upload = $this->call('POST', '/settings/customization', [], [], ['app_logo' => $galleryFile], []);
+        $upload->assertRedirect('/settings/customization');
 
         $this->assertTrue(file_exists($expectedPath), 'Uploaded image not found at path: ' . $expectedPath);
 

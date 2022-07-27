@@ -4,10 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>@yield('title')</title>
 
-    @include('common.export-styles', ['format' => $format])
-    @include('common.export-custom-head')
+    @if($cspContent ?? false)
+        <meta http-equiv="Content-Security-Policy" content="{{ $cspContent }}">
+    @endif
+
+    @include('exports.parts.styles', ['format' => $format, 'engine' => $engine ?? ''])
+    @include('exports.parts.custom-head')
 </head>
-<body>
+<body class="export export-format-{{ $format }} export-engine-{{ $engine ?? 'none' }}">
 <div class="page-content">
     @yield('content')
 </div>

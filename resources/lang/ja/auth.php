@@ -21,7 +21,7 @@ return [
     'email' => 'メールアドレス',
     'password' => 'パスワード',
     'password_confirm' => 'パスワード (確認)',
-    'password_hint' => '7文字以上である必要があります',
+    'password_hint' => '8文字以上で設定する必要があります',
     'forgot_password' => 'パスワードをお忘れですか？',
     'remember_me' => 'ログイン情報を保存する',
     'ldap_email_hint' => 'このアカウントで使用するEメールアドレスを入力してください。',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => '登録は現在停止中です。',
     'registration_email_domain_invalid' => 'このEmailドメインでの登録は許可されていません。',
     'register_success' => '登録が完了し、ログインできるようになりました！',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
     'reset_password' => 'パスワードリセット',
@@ -54,7 +59,7 @@ return [
     'email_confirm_text' => '以下のボタンを押し、メールアドレスを確認してください:',
     'email_confirm_action' => 'メールアドレスを確認',
     'email_confirm_send_error' => 'Eメールの確認が必要でしたが、システム上でEメールの送信ができませんでした。管理者に連絡し、Eメールが正しく設定されていることを確認してください。',
-    'email_confirm_success' => 'Your email has been confirmed! You should now be able to login using this email address.',
+    'email_confirm_success' => 'メールアドレスが確認されました！このメールアドレスでログインできるようになりました。',
     'email_confirm_resent' => '確認メールを再送信しました。受信トレイを確認してください。',
 
     'email_not_confirmed' => 'Eメールアドレスが確認できていません',
@@ -71,7 +76,7 @@ return [
     'user_invite_page_welcome' => ':appNameへようこそ！',
     'user_invite_page_text' => 'アカウントの設定を完了してアクセスするには、今後の訪問時に:appNameにログインするためのパスワードを設定する必要があります。',
     'user_invite_page_confirm_button' => 'パスワードを確定',
-    'user_invite_success_login' => 'Password set, you should now be able to login using your set password to access :appName!',
+    'user_invite_success_login' => 'パスワードが設定されました。設定したパスワードで:appNameにログインできるようになりました！',
 
     // Multi-factor Authentication
     'mfa_setup' => '多要素認証を設定',

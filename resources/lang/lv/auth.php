@@ -38,6 +38,11 @@ return [
     'registration_email_domain_invalid' => 'E-pasta domēnam nav piekļuves pie šīs aplikācijas',
     'register_success' => 'Paldies par reģistrēšanos! Tagad varat pieslēgties.',
 
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
+
     // Password Reset
     'reset_password' => 'Atiestatīt paroli',
     'reset_password_send_instructions' => 'Ievadiet savu e-pastu zemāk un nosūtīsim e-pastu ar paroles atiestatīšanas saiti.',
@@ -54,7 +59,7 @@ return [
     'email_confirm_text' => 'Lūdzu apstipriniet savu e-pastu nospiežot zemāk redzamo pogu:',
     'email_confirm_action' => 'Apstiprināt e-pastu',
     'email_confirm_send_error' => 'E-pasta apriprināšana ir nepieciešama, bet sistēma nevarēja e-pastu nosūtīt. Lūdzu sazinaties ar administratoru, lai pārliecinātos, ka e-pasts ir iestatīts pareizi.',
-    'email_confirm_success' => 'Your email has been confirmed! You should now be able to login using this email address.',
+    'email_confirm_success' => 'Jūsu epasta adrese ir apstiprināta! Jums tagad jābūt iespējai pieslēgties, izmantojot šo epasta adresi.',
     'email_confirm_resent' => 'Apstiprinājuma vēstule tika nosūtīta. Lūdzu, pārbaudiet jūsu e-pastu.',
 
     'email_not_confirmed' => 'E-pasts nav apstiprināts',
@@ -71,7 +76,7 @@ return [
     'user_invite_page_welcome' => 'Sveicināti :appName!',
     'user_invite_page_text' => 'Lai pabeigtu profila izveidi un piekļūtu :appName ir jāizveido parole.',
     'user_invite_page_confirm_button' => 'Apstiprināt paroli',
-    'user_invite_success_login' => 'Password set, you should now be able to login using your set password to access :appName!',
+    'user_invite_success_login' => 'Parole ir uzstādīta, jums tagad jābūt iespējai pieslēgties izmantojot uzstādīto paroli, lai piekļūtu :appName!',
 
     // Multi-factor Authentication
     'mfa_setup' => 'Iestati divfaktoru autentifikāciju (2FA)',

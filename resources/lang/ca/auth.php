@@ -21,7 +21,7 @@ return [
     'email' => 'Adreça electrònica',
     'password' => 'Contrasenya',
     'password_confirm' => 'Confirmeu la contrasenya',
-    'password_hint' => 'Cal que tingui més de 7 caràcters',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'Heu oblidat la contrasenya?',
     'remember_me' => 'Recorda\'m',
     'ldap_email_hint' => 'Introduïu una adreça electrònica per a aquest compte.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Actualment, els registres estan desactivats',
     'registration_email_domain_invalid' => 'Aquest domini de correu electrònic no té accés a aquesta aplicació',
     'register_success' => 'Gràcies per registrar-vos! Ja us hi heu registrat i heu iniciat la sessió.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
     'reset_password' => 'Restableix la contrasenya',

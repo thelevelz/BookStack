@@ -21,6 +21,7 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         NotFoundException::class,
+        StoppedAuthenticationException::class,
     ];
 
     /**
@@ -99,6 +100,10 @@ class Handler extends ExceptionHandler
         if ($e instanceof ValidationException) {
             $responseData['error']['validation'] = $e->errors();
             $code = $e->status;
+        }
+
+        if (method_exists($e, 'getStatus')) {
+            $code = $e->getStatus();
         }
 
         $responseData['error']['code'] = $code;

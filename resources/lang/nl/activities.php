@@ -12,9 +12,9 @@ return [
     'page_update_notification'    => 'Pagina succesvol bijgewerkt',
     'page_delete'                 => 'verwijderde pagina',
     'page_delete_notification'    => 'Pagina succesvol verwijderd',
-    'page_restore'                => 'herstelde pagina',
+    'page_restore'                => 'pagina hersteld',
     'page_restore_notification'   => 'Pagina succesvol hersteld',
-    'page_move'                   => 'verplaatste pagina',
+    'page_move'                   => 'pagina verplaatst',
 
     // Chapters
     'chapter_create'              => 'maakte hoofdstuk',
@@ -23,21 +23,25 @@ return [
     'chapter_update_notification' => 'Hoofdstuk succesvol bijgewerkt',
     'chapter_delete'              => 'verwijderde hoofdstuk',
     'chapter_delete_notification' => 'Hoofdstuk succesvol verwijderd',
-    'chapter_move'                => 'verplaatste hoofdstuk',
+    'chapter_move'                => 'hoofdstuk verplaatst',
 
     // Books
     'book_create'                 => 'maakte boek',
     'book_create_notification'    => 'Boek succesvol aangemaakt',
+    'book_create_from_chapter'              => 'hoofdstuk omzetten naar boek',
+    'book_create_from_chapter_notification' => 'Hoofdstuk is omgezet naar een boek',
     'book_update'                 => 'wijzigde boek',
     'book_update_notification'    => 'Boek succesvol bijgewerkt',
     'book_delete'                 => 'verwijderde boek',
     'book_delete_notification'    => 'Boek succesvol verwijderd',
-    'book_sort'                   => 'sorteerde boek',
-    'book_sort_notification'      => 'Boek succesvol gesorteerd',
+    'book_sort'                   => 'boek gesorteerd',
+    'book_sort_notification'      => 'Boek succesvol opnieuw gesorteerd',
 
     // Bookshelves
-    'bookshelf_create'            => 'maakte boekenplank',
+    'bookshelf_create'            => 'boekenplank aangemaakt',
     'bookshelf_create_notification'    => 'Boekenplank succesvol aangemaakt',
+    'bookshelf_create_from_book'    => 'Boek is geconverteerd naar boekenplank',
+    'bookshelf_create_from_book_notification'    => 'Boek is succesvol geconverteerd naar boekenplank',
     'bookshelf_update'                 => 'wijzigde boekenplank',
     'bookshelf_update_notification'    => 'Boekenplank succesvol bijgewerkt',
     'bookshelf_delete'                 => 'verwijderde boekenplank',
@@ -48,10 +52,22 @@ return [
     'favourite_remove_notification' => '":name" is verwijderd uit je favorieten',
 
     // MFA
-    'mfa_setup_method_notification' => 'Multi-factor methode succesvol geconfigureerd',
-    'mfa_remove_method_notification' => 'Multi-factor methode succesvol verwijderd',
+    'mfa_setup_method_notification' => 'Meervoudige verificatie methode is succesvol geconfigureerd',
+    'mfa_remove_method_notification' => 'Meervoudige verificatie methode is succesvol verwijderd',
+
+    // Webhooks
+    'webhook_create' => 'webhook aangemaakt',
+    'webhook_create_notification' => 'Webhook succesvol aangemaakt',
+    'webhook_update' => 'webhook bijgewerkt',
+    'webhook_update_notification' => 'Webhook succesvol bijgewerkt',
+    'webhook_delete' => 'webhook verwijderd',
+    'webhook_delete_notification' => 'Webhook succesvol verwijderd',
+
+    // Users
+    'user_update_notification' => 'Gebruiker succesvol bijgewerkt',
+    'user_delete_notification' => 'Gebruiker succesvol verwijderd',
 
     // Other
     'commented_on'                => 'reageerde op',
-    'permissions_update'          => 'wijzigde permissies',
+    'permissions_update'          => 'wijzigde machtigingen',
 ];

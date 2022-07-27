@@ -21,7 +21,7 @@ return [
     'email' => 'Correo electrónico',
     'password' => 'Contraseña',
     'password_confirm' => 'Confirmar Contraseña',
-    'password_hint' => 'Debe contener más de 7 caracteres',
+    'password_hint' => 'Debe contener al menos 8 caracteres',
     'forgot_password' => '¿Contraseña Olvidada?',
     'remember_me' => 'Recordarme',
     'ldap_email_hint' => 'Por favor introduzca un mail para utilizar con esta cuenta.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Los registros están deshabilitados actualmente',
     'registration_email_domain_invalid' => 'Este dominio de correo electrónico no tiene acceso a esta aplicación',
     'register_success' => '¡Gracias por registrarse! Ahora se encuentra registrado y logueado.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Intentando iniciar sesión',
+    'auto_init_starting_desc' => 'Estamos contactando con su sistema de autenticación para comenzar el proceso de inicio de sesión. Si no hay progreso después de 5 segundos puede intentar hacer clic en el enlace de abajo.',
+    'auto_init_start_link' => 'Continuar con la autenticación',
 
     // Password Reset
     'reset_password' => 'Resetear Contraseña',

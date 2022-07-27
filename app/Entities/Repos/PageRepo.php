@@ -10,6 +10,7 @@ use BookStack\Entities\Models\Page;
 use BookStack\Entities\Models\PageRevision;
 use BookStack\Entities\Tools\BookContents;
 use BookStack\Entities\Tools\PageContent;
+use BookStack\Entities\Tools\PageEditorData;
 use BookStack\Entities\Tools\TrashCan;
 use BookStack\Exceptions\MoveOperationException;
 use BookStack\Exceptions\NotFoundException;
@@ -171,7 +172,7 @@ class PageRepo
         $draft->indexForSearch();
         $draft->refresh();
 
-        Activity::addForEntity($draft, ActivityType::PAGE_CREATE);
+        Activity::add(ActivityType::PAGE_CREATE, $draft);
 
         return $draft;
     }
@@ -205,7 +206,7 @@ class PageRepo
             $this->savePageRevision($page, $summary);
         }
 
-        Activity::addForEntity($page, ActivityType::PAGE_UPDATE);
+        Activity::add(ActivityType::PAGE_UPDATE, $page);
 
         return $page;
     }
@@ -217,10 +218,24 @@ class PageRepo
         }
 
         $pageContent = new PageContent($page);
-        if (!empty($input['markdown'] ?? '')) {
+        $currentEditor = $page->editor ?: PageEditorData::getSystemDefaultEditor();
+        $newEditor = $currentEditor;
+
+        $haveInput = isset($input['markdown']) || isset($input['html']);
+        $inputEmpty = empty($input['markdown']) && empty($input['html']);
+
+        if ($haveInput && $inputEmpty) {
+            $pageContent->setNewHTML('');
+        } elseif (!empty($input['markdown']) && is_string($input['markdown'])) {
+            $newEditor = 'markdown';
             $pageContent->setNewMarkdown($input['markdown']);
         } elseif (isset($input['html'])) {
+            $newEditor = 'wysiwyg';
             $pageContent->setNewHTML($input['html']);
+        }
+
+        if ($newEditor !== $currentEditor && userCan('editor-change')) {
+            $page->editor = $newEditor;
         }
     }
 
@@ -229,8 +244,12 @@ class PageRepo
      */
     protected function savePageRevision(Page $page, string $summary = null): PageRevision
     {
-        $revision = new PageRevision($page->getAttributes());
+        $revision = new PageRevision();
 
+        $revision->name = $page->name;
+        $revision->html = $page->html;
+        $revision->markdown = $page->markdown;
+        $revision->text = $page->text;
         $revision->page_id = $page->id;
         $revision->slug = $page->slug;
         $revision->book_slug = $page->book->slug;
@@ -260,10 +279,15 @@ class PageRepo
             return $page;
         }
 
-        // Otherwise save the data to a revision
+        // Otherwise, save the data to a revision
         $draft = $this->getPageRevisionToUpdate($page);
         $draft->fill($input);
-        if (setting('app-editor') !== 'markdown') {
+
+        if (!empty($input['markdown'])) {
+            $draft->markdown = $input['markdown'];
+            $draft->html = '';
+        } else {
+            $draft->html = $input['html'];
             $draft->markdown = '';
         }
 
@@ -281,7 +305,7 @@ class PageRepo
     {
         $trashCan = new TrashCan();
         $trashCan->softDestroyPage($page);
-        Activity::addForEntity($page, ActivityType::PAGE_DELETE);
+        Activity::add(ActivityType::PAGE_DELETE, $page);
         $trashCan->autoClearOld();
     }
 
@@ -312,7 +336,7 @@ class PageRepo
         $summary = trans('entities.pages_revision_restored_from', ['id' => strval($revisionId), 'summary' => $revision->summary]);
         $this->savePageRevision($page, $summary);
 
-        Activity::addForEntity($page, ActivityType::PAGE_RESTORE);
+        Activity::add(ActivityType::PAGE_RESTORE, $page);
 
         return $page;
     }
@@ -328,7 +352,7 @@ class PageRepo
     public function move(Page $page, string $parentIdentifier): Entity
     {
         $parent = $this->findParentByIdentifier($parentIdentifier);
-        if ($parent === null) {
+        if (is_null($parent)) {
             throw new MoveOperationException('Book or chapter to move page into not found');
         }
 
@@ -341,56 +365,19 @@ class PageRepo
         $page->changeBook($newBookId);
         $page->rebuildPermissions();
 
-        Activity::addForEntity($page, ActivityType::PAGE_MOVE);
+        Activity::add(ActivityType::PAGE_MOVE, $page);
 
         return $parent;
     }
 
     /**
-     * Copy an existing page in the system.
-     * Optionally providing a new parent via string identifier and a new name.
-     *
-     * @throws MoveOperationException
-     * @throws PermissionsException
-     */
-    public function copy(Page $page, string $parentIdentifier = null, string $newName = null): Page
-    {
-        $parent = $parentIdentifier ? $this->findParentByIdentifier($parentIdentifier) : $page->getParent();
-        if ($parent === null) {
-            throw new MoveOperationException('Book or chapter to move page into not found');
-        }
-
-        if (!userCan('page-create', $parent)) {
-            throw new PermissionsException('User does not have permission to create a page within the new parent');
-        }
-
-        $copyPage = $this->getNewDraftPage($parent);
-        $pageData = $page->getAttributes();
-
-        // Update name
-        if (!empty($newName)) {
-            $pageData['name'] = $newName;
-        }
-
-        // Copy tags from previous page if set
-        if ($page->tags) {
-            $pageData['tags'] = [];
-            foreach ($page->tags as $tag) {
-                $pageData['tags'][] = ['name' => $tag->name, 'value' => $tag->value];
-            }
-        }
-
-        return $this->publishDraft($copyPage, $pageData);
-    }
-
-    /**
-     * Find a page parent entity via a identifier string in the format:
+     * Find a page parent entity via an identifier string in the format:
      * {type}:{id}
      * Example: (book:5).
      *
      * @throws MoveOperationException
      */
-    protected function findParentByIdentifier(string $identifier): ?Entity
+    public function findParentByIdentifier(string $identifier): ?Entity
     {
         $stringExploded = explode(':', $identifier);
         $entityType = $stringExploded[0];
@@ -403,23 +390,6 @@ class PageRepo
         $parentClass = $entityType === 'book' ? Book::class : Chapter::class;
 
         return $parentClass::visible()->where('id', '=', $entityId)->first();
-    }
-
-    /**
-     * Change the page's parent to the given entity.
-     */
-    protected function changeParent(Page $page, Entity $parent)
-    {
-        $book = ($parent instanceof Chapter) ? $parent->book : $parent;
-        $page->chapter_id = ($parent instanceof Chapter) ? $parent->id : 0;
-        $page->save();
-
-        if ($page->book->id !== $book->id) {
-            $page->changeBook($book->id);
-        }
-
-        $page->load('book');
-        $book->rebuildPermissions();
     }
 
     /**

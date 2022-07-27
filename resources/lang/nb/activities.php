@@ -29,20 +29,24 @@ return [
     // Books
     'book_create'                 => 'opprettet bok',
     'book_create_notification'    => 'Boken ble opprettet',
+    'book_create_from_chapter'              => 'konverterte kapittelet til bok',
+    'book_create_from_chapter_notification' => 'Kapittelet ble konvertert til en bok',
     'book_update'                 => 'oppdaterte bok',
     'book_update_notification'    => 'Boken ble oppdatert',
     'book_delete'                 => 'slettet bok',
     'book_delete_notification'    => 'Boken ble slettet',
     'book_sort'                   => 'sorterte bok',
-    'book_sort_notification'      => 'Boken ble omsortert',
+    'book_sort_notification'      => 'Boken ble gjenopprettet',
 
     // Bookshelves
     'bookshelf_create'            => 'opprettet bokhylle',
-    'bookshelf_create_notification'    => 'Bokhyllen ble opprettet',
+    'bookshelf_create_notification'    => 'Bokhylle ble opprettet',
+    'bookshelf_create_from_book'    => 'konverterte bok til bokhylle',
+    'bookshelf_create_from_book_notification'    => 'Boken ble konvertert til en bokhylle',
     'bookshelf_update'                 => 'oppdaterte bokhylle',
-    'bookshelf_update_notification'    => 'Bokhyllen ble oppdatert',
+    'bookshelf_update_notification'    => 'Bookshelf successfully updated',
     'bookshelf_delete'                 => 'slettet bokhylle',
-    'bookshelf_delete_notification'    => 'Bokhyllen ble slettet',
+    'bookshelf_delete_notification'    => 'Bookshelf successfully deleted',
 
     // Favourites
     'favourite_add_notification' => '«:name» ble lagt til i dine favoritter',
@@ -51,6 +55,18 @@ return [
     // MFA
     'mfa_setup_method_notification' => 'Flerfaktor-metoden ble konfigurert',
     'mfa_remove_method_notification' => 'Flerfaktor-metoden ble fjernet',
+
+    // Webhooks
+    'webhook_create' => 'created webhook',
+    'webhook_create_notification' => 'Webhook successfully created',
+    'webhook_update' => 'updated webhook',
+    'webhook_update_notification' => 'Webhook successfully updated',
+    'webhook_delete' => 'deleted webhook',
+    'webhook_delete_notification' => 'Webhook successfully deleted',
+
+    // Users
+    'user_update_notification' => 'User successfully updated',
+    'user_delete_notification' => 'User successfully removed',
 
     // Other
     'commented_on'                => 'kommenterte på',

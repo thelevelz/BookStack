@@ -21,7 +21,7 @@ return [
     'email' => 'Elektroninis paštas',
     'password' => 'Slaptažodis',
     'password_confirm' => 'Patvirtinti slaptažodį',
-    'password_hint' => 'Privalo būti daugiau nei 7 simboliai',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'Pamiršote slaptažodį?',
     'remember_me' => 'Prisimink mane',
     'ldap_email_hint' => 'Prašome įvesti elektroninį paštą, kad galėtume naudotis šia paskyra.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Registracijos šiuo metu negalimos',
     'registration_email_domain_invalid' => 'Elektroninio pašto domenas neturi prieigos prie šios programos',
     'register_success' => 'Ačiū už prisijungimą! Dabar jūs užsiregistravote ir prisijungėte.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
     'reset_password' => 'Pakeisti slaptažodį',

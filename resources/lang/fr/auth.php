@@ -21,7 +21,7 @@ return [
     'email' => 'E-mail',
     'password' => 'Mot de passe',
     'password_confirm' => 'Confirmez le mot de passe',
-    'password_hint' => 'Doit faire plus de 7 caractères',
+    'password_hint' => 'Doit être d\'au moins 8 caractères',
     'forgot_password' => 'Mot de passe oublié ?',
     'remember_me' => 'Se souvenir de moi',
     'ldap_email_hint' => 'Merci d\'entrer une adresse e-mail pour ce compte.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Les inscriptions sont désactivées pour le moment',
     'registration_email_domain_invalid' => 'Cette adresse e-mail ne peut pas accéder à l\'application',
     'register_success' => 'Merci pour votre inscription. Vous êtes maintenant inscrit(e) et connecté(e)',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Tentative de connexion',
+    'auto_init_starting_desc' => 'Nous contactons votre système d\'authentification pour démarrer le processus de connexion. S\'il n\'y a pas de progrès après 5 secondes, vous pouvez essayer de cliquer sur le lien ci-dessous.',
+    'auto_init_start_link' => 'Procéder à l\'authentification',
 
     // Password Reset
     'reset_password' => 'Réinitialiser le mot de passe',

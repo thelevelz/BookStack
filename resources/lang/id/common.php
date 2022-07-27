@@ -47,6 +47,8 @@ return [
     'previous' => 'Sebelumnya',
     'filter_active' => 'Active Filter:',
     'filter_clear' => 'Clear Filter',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'Opsi Sortir',
@@ -71,6 +73,11 @@ return [
     'list_view' => 'Tampilan Daftar',
     'default' => 'Bawaan',
     'breadcrumb' => 'Breadcrumb',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
+    'none' => 'None',
 
     // Header
     'header_menu_expand' => 'Perluas Menu Tajuk',

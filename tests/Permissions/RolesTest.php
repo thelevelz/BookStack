@@ -12,8 +12,8 @@ use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Entity;
 use BookStack\Entities\Models\Page;
 use BookStack\Uploads\Image;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
-use Tests\TestResponse;
 
 class RolesTest extends TestCase
 {
@@ -27,7 +27,7 @@ class RolesTest extends TestCase
 
     public function test_admin_can_see_settings()
     {
-        $this->asAdmin()->get('/settings')->assertSee('Settings');
+        $this->asAdmin()->get('/settings/features')->assertSee('Settings');
     }
 
     public function test_cannot_delete_admin_role()
@@ -58,14 +58,14 @@ class RolesTest extends TestCase
         $testRoleUpdateName = 'An Super Updated role';
 
         // Creation
-        $resp = $this->asAdmin()->get('/settings');
-        $resp->assertElementContains('a[href="' . url('/settings/roles') . '"]', 'Roles');
+        $resp = $this->asAdmin()->get('/settings/features');
+        $this->withHtml($resp)->assertElementContains('a[href="' . url('/settings/roles') . '"]', 'Roles');
 
         $resp = $this->get('/settings/roles');
-        $resp->assertElementContains('a[href="' . url('/settings/roles/new') . '"]', 'Create New Role');
+        $this->withHtml($resp)->assertElementContains('a[href="' . url('/settings/roles/new') . '"]', 'Create New Role');
 
         $resp = $this->get('/settings/roles/new');
-        $resp->assertElementContains('form[action="' . url('/settings/roles/new') . '"]', 'Save Role');
+        $this->withHtml($resp)->assertElementContains('form[action="' . url('/settings/roles/new') . '"]', 'Save Role');
 
         $resp = $this->post('/settings/roles/new', [
             'display_name' => $testRoleName,
@@ -89,7 +89,7 @@ class RolesTest extends TestCase
         $resp = $this->get('/settings/roles/' . $role->id);
         $resp->assertSee($testRoleName);
         $resp->assertSee($testRoleDesc);
-        $resp->assertElementContains('form[action="' . url('/settings/roles/' . $role->id) . '"]', 'Save Role');
+        $this->withHtml($resp)->assertElementContains('form[action="' . url('/settings/roles/' . $role->id) . '"]', 'Save Role');
 
         $resp = $this->put('/settings/roles/' . $role->id, [
             'display_name' => $testRoleUpdateName,
@@ -105,11 +105,11 @@ class RolesTest extends TestCase
 
         // Deleting
         $resp = $this->get('/settings/roles/' . $role->id);
-        $resp->assertElementContains('a[href="' . url("/settings/roles/delete/$role->id") . '"]', 'Delete Role');
+        $this->withHtml($resp)->assertElementContains('a[href="' . url("/settings/roles/delete/$role->id") . '"]', 'Delete Role');
 
         $resp = $this->get("/settings/roles/delete/$role->id");
         $resp->assertSee($testRoleUpdateName);
-        $resp->assertElementContains('form[action="' . url("/settings/roles/delete/$role->id") . '"]', 'Confirm');
+        $this->withHtml($resp)->assertElementContains('form[action="' . url("/settings/roles/delete/$role->id") . '"]', 'Confirm');
 
         $resp = $this->delete("/settings/roles/delete/$role->id");
         $resp->assertRedirect('/settings/roles');
@@ -154,13 +154,30 @@ class RolesTest extends TestCase
         $this->assertCount(1, $roleB->users()->get());
 
         $deletePage = $this->asAdmin()->get("/settings/roles/delete/$roleB->id");
-        $deletePage->assertElementExists('select[name=migrate_role_id]');
+        $this->withHtml($deletePage)->assertElementExists('select[name=migrate_role_id]');
         $this->asAdmin()->delete("/settings/roles/delete/$roleB->id", [
             'migrate_role_id' => $roleA->id,
         ]);
 
         $this->assertCount(1, $roleA->users()->get());
         $this->assertEquals($this->user->id, $roleA->users()->first()->id);
+    }
+
+    public function test_copy_role_button_shown()
+    {
+        /** @var Role $role */
+        $role = Role::query()->first();
+        $resp = $this->asAdmin()->get("/settings/roles/{$role->id}");
+        $this->withHtml($resp)->assertElementContains('a[href$="/roles/new?copy_from=' . $role->id . '"]', 'Copy');
+    }
+
+    public function test_copy_from_param_on_create_prefills_with_other_role_data()
+    {
+        /** @var Role $role */
+        $role = Role::query()->first();
+        $resp = $this->asAdmin()->get("/settings/roles/new?copy_from={$role->id}");
+        $resp->assertOk();
+        $this->withHtml($resp)->assertElementExists('input[name="display_name"][value="' . ($role->display_name . ' (Copy)') . '"]');
     }
 
     public function test_manage_user_permission()
@@ -186,9 +203,9 @@ class RolesTest extends TestCase
         $originalEmail = $this->user->email;
         $this->actingAs($this->user);
 
-        $this->get($userProfileUrl)
-            ->assertOk()
-            ->assertElementExists('input[name=email][disabled]');
+        $resp = $this->get($userProfileUrl)
+            ->assertOk();
+        $this->withHtml($resp)->assertElementExists('input[name=email][disabled]');
         $this->put($userProfileUrl, [
             'name'  => 'my_new_name',
             'email' => 'new_email@example.com',
@@ -201,9 +218,9 @@ class RolesTest extends TestCase
 
         $this->giveUserPermissions($this->user, ['users-manage']);
 
-        $this->get($userProfileUrl)
-            ->assertOk()
-            ->assertElementNotExists('input[name=email][disabled]')
+        $resp = $this->get($userProfileUrl)
+            ->assertOk();
+        $this->withHtml($resp)->assertElementNotExists('input[name=email][disabled]')
             ->assertElementExists('input[name=email]');
         $this->put($userProfileUrl, [
             'name'  => 'my_new_name_2',
@@ -230,13 +247,13 @@ class RolesTest extends TestCase
 
     public function test_settings_manage_permission()
     {
-        $this->actingAs($this->user)->get('/settings')->assertRedirect('/');
+        $this->actingAs($this->user)->get('/settings/features')->assertRedirect('/');
         $this->giveUserPermissions($this->user, ['settings-manage']);
-        $this->get('/settings')->assertOk();
+        $this->get('/settings/features')->assertOk();
 
-        $resp = $this->post('/settings', []);
-        $resp->assertRedirect('/settings');
-        $resp = $this->get('/settings');
+        $resp = $this->post('/settings/features', []);
+        $resp->assertRedirect('/settings/features');
+        $resp = $this->get('/settings/features');
         $resp->assertSee('Settings saved');
     }
 
@@ -298,8 +315,8 @@ class RolesTest extends TestCase
         }
 
         foreach ($visibles as $url => $text) {
-            $this->actingAs($this->user)->get($url)
-                ->assertElementNotContains('.action-buttons', $text);
+            $resp = $this->actingAs($this->user)->get($url);
+            $this->withHtml($resp)->assertElementNotContains('.action-buttons', $text);
         }
 
         $this->giveUserPermissions($this->user, [$permission]);
@@ -340,7 +357,8 @@ class RolesTest extends TestCase
             $ownShelf->getUrl() => 'Edit',
         ]);
 
-        $this->get($otherShelf->getUrl())->assertElementNotContains('.action-buttons', 'Edit');
+        $resp = $this->get($otherShelf->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'Edit');
         $this->get($otherShelf->getUrl('/edit'))->assertRedirect('/');
     }
 
@@ -370,7 +388,8 @@ class RolesTest extends TestCase
             $ownShelf->getUrl() => 'Delete',
         ]);
 
-        $this->get($otherShelf->getUrl())->assertElementNotContains('.action-buttons', 'Delete');
+        $resp = $this->get($otherShelf->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'Delete');
         $this->get($otherShelf->getUrl('/delete'))->assertRedirect('/');
 
         $this->get($ownShelf->getUrl());
@@ -418,7 +437,8 @@ class RolesTest extends TestCase
             $ownBook->getUrl() => 'Edit',
         ]);
 
-        $this->get($otherBook->getUrl())->assertElementNotContains('.action-buttons', 'Edit');
+        $resp = $this->get($otherBook->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'Edit');
         $this->get($otherBook->getUrl('/edit'))->assertRedirect('/');
     }
 
@@ -445,7 +465,8 @@ class RolesTest extends TestCase
             $ownBook->getUrl() => 'Delete',
         ]);
 
-        $this->get($otherBook->getUrl())->assertElementNotContains('.action-buttons', 'Delete');
+        $resp = $this->get($otherBook->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'Delete');
         $this->get($otherBook->getUrl('/delete'))->assertRedirect('/');
         $this->get($ownBook->getUrl());
         $this->delete($ownBook->getUrl())->assertRedirect('/books');
@@ -484,7 +505,8 @@ class RolesTest extends TestCase
             'description' => 'chapter desc',
         ])->assertRedirect($ownBook->getUrl('/chapter/test-chapter'));
 
-        $this->get($book->getUrl())->assertElementNotContains('.action-buttons', 'New Chapter');
+        $resp = $this->get($book->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'New Chapter');
         $this->get($book->getUrl('/create-chapter'))->assertRedirect('/');
     }
 
@@ -515,7 +537,8 @@ class RolesTest extends TestCase
             $ownChapter->getUrl() => 'Edit',
         ]);
 
-        $this->get($otherChapter->getUrl())->assertElementNotContains('.action-buttons', 'Edit');
+        $resp = $this->get($otherChapter->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'Edit');
         $this->get($otherChapter->getUrl('/edit'))->assertRedirect('/');
     }
 
@@ -543,11 +566,13 @@ class RolesTest extends TestCase
         ]);
 
         $bookUrl = $ownChapter->book->getUrl();
-        $this->get($otherChapter->getUrl())->assertElementNotContains('.action-buttons', 'Delete');
+        $resp = $this->get($otherChapter->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'Delete');
         $this->get($otherChapter->getUrl('/delete'))->assertRedirect('/');
         $this->get($ownChapter->getUrl());
         $this->delete($ownChapter->getUrl())->assertRedirect($bookUrl);
-        $this->get($bookUrl)->assertElementNotContains('.book-content', $ownChapter->name);
+        $resp = $this->get($bookUrl);
+        $this->withHtml($resp)->assertElementNotContains('.book-content', $ownChapter->name);
     }
 
     public function test_chapter_delete_all_permission()
@@ -564,7 +589,8 @@ class RolesTest extends TestCase
         $bookUrl = $otherChapter->book->getUrl();
         $this->get($otherChapter->getUrl());
         $this->delete($otherChapter->getUrl())->assertRedirect($bookUrl);
-        $this->get($bookUrl)->assertElementNotContains('.book-content', $otherChapter->name);
+        $resp = $this->get($bookUrl);
+        $this->withHtml($resp)->assertElementNotContains('.book-content', $otherChapter->name);
     }
 
     public function test_page_create_own_permissions()
@@ -607,10 +633,12 @@ class RolesTest extends TestCase
             'html' => 'page desc',
         ])->assertRedirect($ownBook->getUrl('/page/test-page'));
 
-        $this->get($book->getUrl())->assertElementNotContains('.action-buttons', 'New Page');
+        $resp = $this->get($book->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'New Page');
         $this->get($book->getUrl('/create-page'))->assertRedirect('/');
 
-        $this->get($chapter->getUrl())->assertElementNotContains('.action-buttons', 'New Page');
+        $resp = $this->get($chapter->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'New Page');
         $this->get($chapter->getUrl('/create-page'))->assertRedirect('/');
     }
 
@@ -670,7 +698,8 @@ class RolesTest extends TestCase
             $ownPage->getUrl() => 'Edit',
         ]);
 
-        $this->get($otherPage->getUrl())->assertElementNotContains('.action-buttons', 'Edit');
+        $resp = $this->get($otherPage->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'Edit');
         $this->get($otherPage->getUrl() . '/edit')->assertRedirect('/');
     }
 
@@ -698,11 +727,13 @@ class RolesTest extends TestCase
         ]);
 
         $parent = $ownPage->chapter ?? $ownPage->book;
-        $this->get($otherPage->getUrl())->assertElementNotContains('.action-buttons', 'Delete');
+        $resp = $this->get($otherPage->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.action-buttons', 'Delete');
         $this->get($otherPage->getUrl('/delete'))->assertRedirect('/');
         $this->get($ownPage->getUrl());
         $this->delete($ownPage->getUrl())->assertRedirect($parent->getUrl());
-        $this->get($parent->getUrl())->assertElementNotContains('.book-content', $ownPage->name);
+        $resp = $this->get($parent->getUrl());
+        $this->withHtml($resp)->assertElementNotContains('.book-content', $ownPage->name);
     }
 
     public function test_page_delete_all_permission()
@@ -731,8 +762,8 @@ class RolesTest extends TestCase
         $user = User::query()->first();
         $adminRole = Role::getSystemRole('admin');
         $publicRole = Role::getSystemRole('public');
-        $this->asAdmin()->get('/settings/users/' . $user->id)
-            ->assertElementExists('[name="roles[' . $adminRole->id . ']"]')
+        $resp = $this->asAdmin()->get('/settings/users/' . $user->id);
+        $this->withHtml($resp)->assertElementExists('[name="roles[' . $adminRole->id . ']"]')
             ->assertElementExists('[name="roles[' . $publicRole->id . ']"]');
     }
 
@@ -745,8 +776,8 @@ class RolesTest extends TestCase
 
     public function test_public_role_visible_in_default_role_setting()
     {
-        $this->asAdmin()->get('/settings')
-            ->assertElementExists('[data-system-role-name="admin"]')
+        $resp = $this->asAdmin()->get('/settings/registration');
+        $this->withHtml($resp)->assertElementExists('[data-system-role-name="admin"]')
             ->assertElementExists('[data-system-role-name="public"]');
     }
 

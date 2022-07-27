@@ -21,7 +21,7 @@ return [
     'email' => 'E-post',
     'password' => 'Lösenord',
     'password_confirm' => 'Bekräfta lösenord',
-    'password_hint' => 'Måste vara fler än 7 tecken',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'Glömt lösenord?',
     'remember_me' => 'Kom ihåg mig',
     'ldap_email_hint' => 'Vänligen ange en e-postadress att använda till kontot.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Registrering är för närvarande avstängd',
     'registration_email_domain_invalid' => 'Den e-postadressen har inte tillgång till den här applikationen',
     'register_success' => 'Tack för din registrering! Du är nu registerad och inloggad.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
     'reset_password' => 'Återställ lösenord',
